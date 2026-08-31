@@ -714,6 +714,34 @@
 
       @media (max-width: 620px) { .friction { grid-template-columns: 1fr; } }
 
+      /* 단계가 하나씩 켜진다 — 여섯 번과 한 번의 차이를 눈으로 세게 한다 */
+      .js .fr-steps li { opacity: 0.28; transition: opacity 0.3s ease; }
+      .js .fr-steps li.on { opacity: 1; }
+      .fr-count { font-variant-numeric: tabular-nums; }
+
+      /* 바탕화면 — 화면에 들어오면 아숨이 걸어가서 종이를 붙인다 */
+      .js .screen .sticky,
+      .js .screen .mock-chip,
+      .js .screen .mock-say { opacity: 0; transition: opacity 0.45s ease; }
+
+      .js .screen.run .sticky { opacity: 1; }
+      .js .screen.run .sticky.p1 { transition-delay: 0.9s; }
+      .js .screen.run .sticky.p2 { transition-delay: 1.5s; }
+      .js .screen.run .sticky.p3 { transition-delay: 2.1s; }
+
+      .js .screen.run .mock-chip { opacity: 1; transition-delay: 2.9s; }
+      .js .screen.run .mock-say { opacity: 1; transition-delay: 3.3s; }
+
+      /* 걸어갔다 돌아온다. steps()로 끊어야 픽셀 캐릭터가 미끄러지지 않는다 */
+      .js .screen.run .mock-bot { animation: walk 2.6s steps(9) 0.5s 1 both; }
+
+      @keyframes walk {
+        0%   { transform: translateX(0); }
+        35%  { transform: translateX(-40%); }
+        65%  { transform: translateX(-40%); }
+        100% { transform: translateX(0); }
+      }
+
       /* 머리에 켜져 있는 것들 — 꺼지지 않는다 */
       .loops {
         display: flex;
@@ -942,7 +970,10 @@
         .js .sticky.p1 { transform: rotate(-2.4deg) !important; }
         .js .sticky.p2 { transform: rotate(1.6deg) !important; }
         .js .sticky.p3 { transform: rotate(-1deg) !important; }
-        .bot, .dots i, .caret::after, .chip i, .cue::before, .loop { animation: none !important; }
+        .bot, .dots i, .caret::after, .chip i, .cue::before, .loop,
+        .screen .mock-bot { animation: none !important; }
+        .js .fr-steps li,
+        .js .screen .sticky, .js .screen .mock-chip, .js .screen .mock-say { opacity: 1 !important; }
       }
 
       @media (max-width: 760px) {
@@ -1049,22 +1080,28 @@
           <div class="fr-side">
             <p class="fr-label">일정 하나를 넣으려면</p>
             <ol class="fr-steps">
-              <li>앱을 연다</li>
-              <li>날짜를 찾는다</li>
-              <li>＋ 를 누른다</li>
-              <li>제목을 친다</li>
-              <li>시각을 고른다</li>
-              <li>저장을 누른다</li>
+              <li data-of="cal">앱을 연다</li>
+              <li data-of="cal">날짜를 찾는다</li>
+              <li data-of="cal">＋ 를 누른다</li>
+              <li data-of="cal">제목을 친다</li>
+              <li data-of="cal">시각을 고른다</li>
+              <li data-of="cal">저장을 누른다</li>
             </ol>
-            <p class="fr-total"><b>여섯 번</b><span>약 16초</span></p>
+            <p class="fr-total">
+              <b><span class="fr-count" data-of="cal" data-to="6">0</span>번</b>
+              <span>약 16초</span>
+            </p>
           </div>
 
           <div class="fr-side is-adsum">
             <p class="fr-label">아숨은</p>
             <ol class="fr-steps">
-              <li>말한다</li>
+              <li data-of="adsum">말한다</li>
             </ol>
-            <p class="fr-total"><b>한 번</b><span>3초</span></p>
+            <p class="fr-total">
+              <b><span class="fr-count" data-of="adsum" data-to="1">0</span>번</b>
+              <span>3초</span>
+            </p>
           </div>
         </div>
       </div>
@@ -1386,24 +1423,21 @@
     -->
     <section class="reveal" id="made">
       <div class="wrap narrow">
-        <p class="label">만드는 중입니다</p>
-        <p class="sub" style="font-size: 18px; max-width: 33rem">
-          아직 쓰는 사람이 없어서 후기를 붙일 수 없습니다.
-          대신 <strong>지금까지 얼마나 만들었는지를 적어 둡니다.</strong>
+        <p class="label">만드는 사람</p>
+        <p class="sub" style="font-size: 19px; max-width: 33rem">
+          제가 쓰려고 만들었습니다. <strong>매일 씁니다.</strong>
         </p>
 
-        <div class="nums">
-          <div><b>82</b><span>번 커밋</span></div>
-          <div><b>84</b><span>개의 결정 기록</span></div>
-          <div><b>289</b><span>개 테스트</span></div>
-          <div><b>10,683</b><span>줄</span></div>
-        </div>
+        <p class="sub" style="font-size: 17px; max-width: 33rem">
+          캘린더 앱을 여러 번 갈아탔지만 매번 2주 만에 안 열게 됐습니다.
+          앱이 나빠서가 아니라, 넣는 데 드는 그 십몇 초를 매번 못 이겨서였습니다.
+          그래서 <strong>여는 대신 말을 거는 쪽</strong>으로 만들었습니다.
+        </p>
 
-        <p class="sub" style="font-size: 16.5px; max-width: 33rem; margin-bottom: 0">
-          2026년 8월 15일에 시작해 매일 만들고 있습니다.
-          무엇을 왜 그렇게 정했는지, 무엇을 틀렸고 어떻게 고쳤는지까지
-          <strong>결정 기록 84개에 남겨 두었습니다.</strong>
-          만드는 사람이 매일 쓰면서 고치는 중입니다.
+        <p class="sub" style="font-size: 17px; max-width: 33rem; margin-bottom: 0">
+          아직 쓰는 사람이 없어서 후기를 붙일 수 없습니다.
+          대신 <strong>무엇이 안 되는지를 아래에 그대로 적어 두었습니다.</strong>
+          파는 사람이 숨기고 싶은 쪽이 거기 있습니다.
         </p>
       </div>
     </section>
@@ -1535,77 +1569,134 @@
         );
         document.querySelectorAll(".reveal").forEach((el) => seen.observe(el));
 
-        /* ── 히어로 대화 재생 ──
+        /* ── 대화 재생 ──
            사람이 친 말은 한 글자씩, 아숨의 답은 뜸을 들이고 통째로.
-           그게 실제로 쓸 때의 리듬이다. */
-        const demo = document.getElementById("demo");
-        if (!demo || still) return;
+           그게 실제로 쓸 때의 리듬이다.
 
-        const TYPE_MIN_MS = 38;
-        const TYPE_JITTER_MS = 46;
-        const THINK_MIN_MS = 700;
-        const THINK_JITTER_MS = 500;
-        const BETWEEN_TURNS_MS = 420;
-        const BEFORE_START_MS = 500;
+           **모든 대화가 같은 엔진을 쓴다.** 히어로만 반복하고,
+           본문의 것들은 화면에 들어올 때 한 번만 돈다 —
+           넷이 동시에 반복하면 페이지가 산만해진다. */
+        if (still) return;
+
+        const TYPE_MIN_MS = 34;
+        const TYPE_JITTER_MS = 40;
+        const THINK_MIN_MS = 650;
+        const THINK_JITTER_MS = 450;
+        const BETWEEN_TURNS_MS = 380;
+        const BEFORE_START_MS = 400;
         const LOOP_GAP_MS = 3200;
-
-        const turns = [...demo.querySelectorAll(".turn")].map((turn) => {
-          const bubble = turn.querySelector(".bubble");
-          return { turn, bubble, html: bubble.innerHTML, text: bubble.textContent };
-        });
-
-        // 재생 전에 자리를 잡아 둔다 — 높이가 널뛰면 아래 내용이 흔들린다
-        demo.style.minHeight = `${demo.offsetHeight}px`;
 
         const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-        async function type(item) {
-          item.bubble.textContent = "";
-          item.bubble.classList.add("caret");
-          item.turn.classList.add("in");
+        function makeTalk(root) {
+          const turns = [...root.querySelectorAll(".turn")].map((turn) => {
+            const bubble = turn.querySelector(".bubble");
+            return { turn, bubble, html: bubble.innerHTML, text: bubble.textContent };
+          });
 
-          for (const ch of item.text) {
-            item.bubble.textContent += ch;
-            // 사람이 치는 속도는 고르지 않다
-            await wait(TYPE_MIN_MS + Math.random() * TYPE_JITTER_MS);
-          }
-          item.bubble.classList.remove("caret");
-        }
+          // 재생 전에 자리를 잡아 둔다 — 높이가 널뛰면 아래 내용이 흔들린다
+          root.style.minHeight = `${root.offsetHeight}px`;
+          root.classList.add("armed");
 
-        async function think(item) {
-          item.bubble.innerHTML = '<span class="dots"><i></i><i></i><i></i></span>';
-          item.turn.classList.add("in");
-          await wait(THINK_MIN_MS + Math.random() * THINK_JITTER_MS);
-          item.bubble.innerHTML = item.html;
-        }
-
-        async function play() {
-          for (const item of turns) {
-            item.turn.classList.remove("in");
-            item.bubble.innerHTML = "";
-          }
-          await wait(BEFORE_START_MS);
-
-          for (const item of turns) {
-            if (item.turn.classList.contains("me")) await type(item);
-            else await think(item);
-            await wait(BETWEEN_TURNS_MS);
-          }
-        }
-
-        /* 화면에 보일 때만 돌린다. 스크롤해서 지나갔는데 혼자 떠들 이유가 없다. */
-        let running = false;
-        new IntersectionObserver(
-          async (entries) => {
-            if (!entries[0].isIntersecting || running) return;
-            running = true;
-            while (document.getElementById("demo")) {
-              await play();
-              await wait(LOOP_GAP_MS);
+          async function type(item) {
+            item.bubble.textContent = "";
+            item.bubble.classList.add("caret");
+            item.turn.classList.add("in");
+            for (const ch of item.text) {
+              item.bubble.textContent += ch;
+              // 사람이 치는 속도는 고르지 않다
+              await wait(TYPE_MIN_MS + Math.random() * TYPE_JITTER_MS);
             }
-          },
-          { threshold: 0.35 },
-        ).observe(demo);
+            item.bubble.classList.remove("caret");
+          }
+
+          async function think(item) {
+            item.bubble.innerHTML = '<span class="dots"><i></i><i></i><i></i></span>';
+            item.turn.classList.add("in");
+            await wait(THINK_MIN_MS + Math.random() * THINK_JITTER_MS);
+            item.bubble.innerHTML = item.html;
+          }
+
+          return async function play() {
+            for (const item of turns) {
+              item.turn.classList.remove("in");
+              item.bubble.innerHTML = "";
+            }
+            await wait(BEFORE_START_MS);
+            for (const item of turns) {
+              if (item.turn.classList.contains("me")) await type(item);
+              else await think(item);
+              await wait(BETWEEN_TURNS_MS);
+            }
+          };
+        }
+
+        /* 화면에 보일 때만 돌린다. 지나간 것이 혼자 떠들 이유가 없다. */
+        function playOnView(root, { loop = false } = {}) {
+          const play = makeTalk(root);
+          let started = false;
+
+          new IntersectionObserver(
+            async (entries) => {
+              if (!entries[0].isIntersecting || started) return;
+              started = true;
+              if (!loop) return void play();
+              for (;;) {
+                await play();
+                await wait(LOOP_GAP_MS);
+              }
+            },
+            { threshold: 0.3 },
+          ).observe(root);
+        }
+
+        document.querySelectorAll(".talk").forEach((el) => {
+          playOnView(el, { loop: el.id === "demo" });
+        });
+
+        /* ── 마찰 그림 — 숫자가 올라가며 차이가 보인다 ── */
+        const COUNT_STEP_MS = 260;
+        document.querySelectorAll(".friction").forEach((box) => {
+          const counters = [...box.querySelectorAll(".fr-count")];
+          if (counters.length === 0) return;
+
+          let ran = false;
+          new IntersectionObserver(
+            (entries) => {
+              if (!entries[0].isIntersecting || ran) return;
+              ran = true;
+
+              for (const el of counters) {
+                const to = Number(el.dataset.to);
+                const steps = [...box.querySelectorAll(`[data-of="${el.dataset.of}"]`)];
+                let n = 0;
+
+                const tick = () => {
+                  n += 1;
+                  el.textContent = String(n);
+                  steps[n - 1]?.classList.add("on");
+                  if (n < to) setTimeout(tick, COUNT_STEP_MS);
+                };
+                setTimeout(tick, 260);
+              }
+            },
+            { threshold: 0.4 },
+          ).observe(box);
+        });
+
+        /* ── 바탕화면 그림 — 아숨이 걸어가서 종이를 붙인다 ── */
+        const desk = document.querySelector(".screen");
+        if (desk) {
+          let ran = false;
+          new IntersectionObserver(
+            (entries) => {
+              if (!entries[0].isIntersecting || ran) return;
+              ran = true;
+              desk.classList.add("run");
+            },
+            { threshold: 0.35 },
+          ).observe(desk);
+        }
       })();
     </script>
   </body>
