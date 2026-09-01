@@ -860,6 +860,37 @@
       .ln { color: var(--blue-lt); text-underline-offset: 3px; }
 
       /* 잃을 것이 없다는 것을 CTA 옆에 둔다 */
+      /* 못 하는 것 — 목록이되 체크표시를 안 쓴다. 자랑이 아니라 고백이다. */
+      .cant {
+        list-style: none;
+        margin: 30px 0 0;
+        padding: 0;
+        max-width: 34rem;
+      }
+
+      .cant li {
+        position: relative;
+        padding: 13px 0 13px 22px;
+        border-top: 1px solid var(--line-dark);
+        font-size: 16px;
+        line-height: 1.65;
+        color: var(--on-dark-dim);
+      }
+
+      .cant li:first-child { border-top: 0; }
+
+      .cant li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 22px;
+        width: 9px;
+        height: 1px;
+        background: var(--on-dark-faint);
+      }
+
+      .cant b { color: var(--on-dark); }
+
       .risk {
         list-style: none;
         margin: 30px auto 0;
@@ -1402,6 +1433,53 @@
       </div>
     </section>
 
+    <!--
+      저장된 것을 보고 답하는 단계.
+      기능을 늘어놓지 않는다 — 말을 거는 제품이니 **대화 한 장면**이 곧 설명이다.
+    -->
+    <section class="reveal" id="ask">
+      <div class="wrap narrow">
+        <p class="pair">
+          <strong>이제 저장된 것을 보고 답합니다.</strong>
+          <span>“예비군 끝나고”라고 하면, 예비군이 몇 시에 끝나는지 먼저 확인합니다.</span>
+        </p>
+
+        <div class="talk wide">
+          <div class="turn me"><div class="bubble">예비군 끝나고 저녁 약속 잡아줘</div></div>
+          <div class="turn it"><div class="bubble">8월 24일 오후 6:00에 <b>저녁 약속</b> 저장했어요. 예비군이 6시에 끝나거든요.</div></div>
+        </div>
+
+        <p class="cap">
+          전에는 “몇 시에요?”라고 되물었습니다. 지금은 저장된 것을 찾아보고 정합니다.
+          앞으로 잡힌 예비군이 없으면 없다고 말합니다 — <b>지난 날짜에 저장하지 않습니다.</b>
+        </p>
+
+        <div class="talk wide">
+          <div class="turn me"><div class="bubble">나 면접 언제야?</div></div>
+          <div class="turn it"><div class="bubble">9월 2일 (수) 오후 3:00 <b>아와소프트 임원면접</b></div></div>
+          <div class="turn me"><div class="bubble">몇시간 남았어?</div></div>
+          <div class="turn it"><div class="bubble">아와소프트 임원면접은 <b>18시간 15분</b> 남았어요.</div></div>
+        </div>
+
+        <p class="cap">
+          두 번째 물음에는 이름이 없습니다. 방금 무엇을 보여줬는지 알고 있어서 그대로 이어집니다.
+        </p>
+
+        <div class="talk wide">
+          <div class="turn me"><div class="bubble">이번달 야간 몇 번이야</div></div>
+          <div class="turn it"><div class="bubble">야간은 <b>5번</b>이에요. 지난 게 3번, 앞으로 2번이에요.</div></div>
+          <div class="turn me"><div class="bubble">이번주 알바 몇 시간 했지</div></div>
+          <div class="turn it"><div class="bubble">알바는 <b>21시간</b>이에요. 다만 시각이 안 적힌 게 1개 있어서 실제로는 더 될 거예요.</div></div>
+        </div>
+
+        <p class="cap">
+          세는 일은 AI가 하지 않습니다. 저장된 것을 코드가 셉니다 —
+          그래서 <b>몇 번을 물어도 같은 숫자가 나옵니다.</b>
+          끝 시각이 안 적힌 일정은 빼고 세고, <b>뺐다는 사실을 말합니다.</b>
+        </p>
+      </div>
+    </section>
+
     <!-- ═══ 나머지 — 카드로 썰지 않고 한 문단으로 ═══ -->
     <section class="reveal">
       <div class="wrap narrow">
@@ -1434,11 +1512,43 @@
           그래서 <strong>여는 대신 말을 거는 쪽</strong>으로 만들었습니다.
         </p>
 
-        <p class="sub" style="font-size: 17px; max-width: 33rem; margin-bottom: 0">
-          아직 쓰는 사람이 없어서 후기를 붙일 수 없습니다.
-          대신 <strong>무엇이 안 되는지를 아래에 그대로 적어 두었습니다.</strong>
-          파는 사람이 숨기고 싶은 쪽이 거기 있습니다.
+        <p class="sub" style="font-size: 17px; max-width: 33rem">
+          아직 쓰는 사람이 없어서 후기를 붙일 수 없습니다. 대신 이렇게 확인합니다 —
+          간호사·자영업·수험생·라이더·현장소장까지 <strong>34명분의 가상 사용자</strong>를 만들고,
+          그 사람들이 할 법한 <strong>1,020문장</strong>을 실제로 돌려서
+          <strong>어디서 틀리는지를 셉니다.</strong> 오타도 사투리도 그대로 둡니다.
         </p>
+
+        <p class="sub" style="font-size: 17px; max-width: 33rem; margin-bottom: 0">
+          코드에는 <strong>394개</strong>의 자동 시험이 붙어 있고,
+          왜 그렇게 정했는지는 <strong>96개</strong>의 기록으로 남아 있습니다.
+          그래도 안 되는 것이 남습니다. <strong>그건 아래에 그대로 적었습니다.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!--
+      못 하는 것 — 파는 사람이 숨기는 쪽.
+      값 이야기를 꺼내기 **전에** 놓는다. 뒤에 두면 변명처럼 읽힌다.
+    -->
+    <section class="reveal" id="cant">
+      <div class="wrap narrow">
+        <p class="pair">
+          <strong>안 되는 것을 먼저 적습니다.</strong>
+          <span>어차피 쓰다 보면 알게 될 것을 미리 적는 편이 서로 낫습니다.</span>
+        </p>
+
+        <ul class="cant">
+          <li><b>Windows만 됩니다.</b> macOS 빌드는 아직 만들지 않았습니다.</li>
+          <li><b>휴대폰에서는 볼 수 없습니다.</b> 기기 사이 동기화가 없습니다.</li>
+          <li><b>돈은 다루지 않습니다.</b> 매출도 급여도 가계부도 없습니다.
+            일정 앱이 장부까지 하려 들면 둘 다 어설퍼집니다.</li>
+          <li><b>날씨를 모릅니다.</b> 바깥과 통신하는 것은 말을 알아듣는 그 한 번뿐입니다.</li>
+          <li><b>말투가 들쭉날쭉합니다.</b> 같은 물음에 답이 조금씩 다를 때가 있습니다.
+            다만 무엇을 저장하고 무엇을 지울지는 코드가 정하므로
+            <b>일정이 틀어지지는 않습니다.</b></li>
+          <li><b>아직 쓰는 사람이 없습니다.</b> 후기도, 자랑할 사용자 수도 없습니다.</li>
+        </ul>
       </div>
     </section>
 
@@ -1456,10 +1566,14 @@
 
         <div class="price">
           <p class="pr-main"><b>8,700</b><span>원 / 월</span></p>
-          <p class="pr-sub">하루 290원입니다.</p>
+          <p class="pr-sub">
+            하루 290원입니다. 적는 데 드는 십몇 초를 하루 다섯 번만 줄여도
+            한 달이면 한 시간이 남습니다.
+          </p>
 
           <ul class="pr-list">
             <li>말로 넣고 찾고 고치는 것 전부</li>
+            <li>저장된 것을 보고 답하기 · 세기 · 남은 시간</li>
             <li>아침 브리핑 · 알림 · 우선순위 · 분량 배분</li>
             <li>타이머 · 쉼 챙기기 · 앱 열기 · 기억</li>
           </ul>
