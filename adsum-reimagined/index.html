@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07080c" />
+    <meta name="description" content="생각난 순간, 이미 적혀 있어요. 아숨에게 한마디면 일정과 할 일이 바탕화면에 남습니다." />
+    <title>Adsum — 생각난 순간, 이미 적혀 있어요</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">본문으로 바로가기</a>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="pointer-light" aria-hidden="true"></div>
+    <div class="page-progress" aria-hidden="true"><i></i></div>
+    <header class="site-nav">
+      <a class="brand" href="#top" aria-label="Adsum 홈"><svg viewBox="0 0 42 42" aria-hidden="true"><path d="M21 4c5.2 0 7 5.1 8.9 8.1 2.1 3.2 8.2 2.2 8.2 8.9 0 5.6-5.6 7-9.1 8.1-3.4 1-3.9 8.9-10.1 8.9-6.4 0-6.3-7.3-9.8-9.2C6.2 27.2 3.9 24.5 3.9 21c0-5.6 5.2-7.3 8.1-9.2C14.9 9.9 15.6 4 21 4Z"/></svg><span>Adsum</span></a>
+      <nav aria-label="주요 메뉴"><a href="#day">어느 하루</a><a href="#friction">왜 16초인가</a><a href="#principles">원칙</a><a href="#limits">안 되는 것</a><a href="#price">값</a></nav>
+      <a class="nav-cta" href="mailto:wob0217@gmail.com?subject=Adsum%20출시%20알림">출시 소식 받기 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6"/></svg></a>
+    </header>
+    <main id="main">
+      <section class="manifesto-hero hero-render" id="top" aria-labelledby="hero-title">
+        <img src="/adsum-character-hero-v2.png" alt="생각난 순간 이미 적혀 있어요. 흰 얼굴과 보라색 몸체의 아숨 캐릭터가 말을 일정으로 옮기는 모습을 표현한 렌더링" />
+        <div class="hero-semantics">
+          <h1 id="hero-title">생각난 순간, 이미 적혀 있어요.</h1>
+          <p>캘린더를 열지 마세요. 아숨에게 한마디면 일정과 할 일이 바탕화면에 남습니다.</p>
+        </div>
+        <a class="render-hotspot hotspot-how" href="#thesis"><span>제품 소개</span></a>
+        <a class="render-hotspot hotspot-trust" href="#day"><span>사용 방식</span></a>
+        <a class="render-hotspot hotspot-stage" href="#limits"><span>자주 묻는 질문</span></a>
+        <a class="render-hotspot hotspot-main-cta" href="mailto:wob0217@gmail.com?subject=Adsum%20출시%20알림"><span>출시 소식 받기</span></a>
+        <a class="render-hotspot hotspot-demo" href="#day"><span>30초 만에 보기</span></a>
+      </section>
+      <section class="thesis" id="thesis">
+        <span class="section-index">01 — OUR THESIS</span>
+        <blockquote>하루가 끝났을 때, 캘린더를 한 번도 열지 않았는데<br /><em>적어야 했던 것이 전부 적혀 있는 것.</em></blockquote>
+        <div class="thesis-note"><p>아숨은 Windows 바탕화면에 머뭅니다. 캐릭터를 누르거나 <kbd>Ctrl</kbd>+<kbd>Space</kbd>를 누르고 말하면 일정과 할 일이 바로 남습니다.</p><p>많이 쓰게 만드는 제품이 아니라, 적는 일을 의식하지 않게 만드는 제품입니다.</p></div>
+        <div class="capture-path reveal" aria-label="아숨으로 일정을 남기는 세 단계">
+          <div><span>01</span><strong>부릅니다</strong><p>캐릭터를 누르거나<br /><kbd>Ctrl</kbd>+<kbd>Space</kbd></p></div>
+          <i aria-hidden="true"></i>
+          <div><span>02</span><strong>말합니다</strong><p>일정·할 일·반복·알림을<br />평소 말하듯 한 문장으로</p></div>
+          <i aria-hidden="true"></i>
+          <div><span>03</span><strong>남습니다</strong><p>일정은 캘린더에,<br />할 일은 바탕화면 종이에</p></div>
+        </div>
+        <div class="continuity-line" aria-hidden="true"></div>
+      </section>
+      <section class="day-section" id="day">
+        <header class="editorial-head reveal"><span class="section-index">02 — 어느 하루</span><h2>한마디가 남고,<br /><em>하루는 계속됩니다.</em></h2><p>아숨은 하던 일을 멈추게 하지 않습니다. 시간을 눌러 그날의 네 장면을 확인해 보세요.</p></header>
+        <div class="day-experience">
+          <div class="moment-rail" role="tablist" aria-label="하루의 네 장면">
+            <div class="rail-track" aria-hidden="true"><i></i><div class="rail-bot state-idle" data-adsum-character></div></div>
+            <button class="active" type="button" role="tab" aria-selected="true" data-moment="rent"><time>11:37</time><span><strong>매달 26일 월세</strong><small>2027년 2월까지</small></span></button>
+            <button type="button" role="tab" aria-selected="false" data-moment="reading"><time>13:20</time><span><strong>프로젝트 헤일메리</strong><small>지킬 수 있는 계획인지 계산</small></span></button>
+            <button type="button" role="tab" aria-selected="false" data-moment="break"><time>15:10</time><span><strong>커피 좀 마시고 올게</strong><small>묻지 않고 10분</small></span></button>
+            <button type="button" role="tab" aria-selected="false" data-moment="restore"><time>21:48</time><span><strong>일요일 거 되살려 줘</strong><small>대화의 맥락으로 복구</small></span></button>
+          </div>
+          <div class="moment-stage" data-active-moment="rent">
+            <article class="moment-panel active" data-panel="rent"><div class="moment-copy"><time>11시 37분</time><h3>매달 26일,<br />창을 열지 않고.</h3><p>“매달 26일 월세 내야 해, 내년 2월까지.” 매달 26일로 저장되고 2027년 2월에 멈춥니다. 하던 일에서 눈을 뗄 필요가 없습니다.</p></div><div class="rent-visual" aria-label="2026년 9월부터 2027년 2월까지 반복되는 월세 일정"><span>2026.09</span><i>26</i><span>10</span><i>26</i><span>11</span><i>26</i><span>12</span><i>26</i><span>2027.01</span><i>26</i><span>02</span><i class="last">26</i></div></article>
+            <article class="moment-panel" data-panel="reading"><div class="moment-copy"><time>1시 20분</time><h3>계획은 의지가 아니라<br />가능한 날로 계산합니다.</h3><p>하루 3쪽으로는 476쪽을 한 달 안에 읽기 어렵습니다. 예비군 이틀과 제주도 이틀을 빼면 30일뿐이고, 필요한 시간은 159일입니다.</p></div><div class="reading-visual"><div class="reading-stats"><div><small>전체</small><strong>476</strong><span>쪽</span></div><div><small>하루</small><strong>3</strong><span>쪽</span></div><div class="warn"><small>필요</small><strong>159</strong><span>일</span></div><div class="warn"><small>가능</small><strong>30</strong><span>일</span></div></div><div class="page-compare"><div class="needed"><i></i><span>159일 필요</span></div><div class="available"><i></i><span>30일 가능</span><b>예비군 −2</b><b>제주도 −2</b></div></div></div></article>
+            <article class="moment-panel" data-panel="break"><div class="moment-copy"><time>3시 10분</time><h3>잠깐 쉰다는 말에는<br />10분이면 충분합니다.</h3><p>“커피 좀 마시고 올게.” 몇 분인지 되묻지 않고 10분을 시작합니다. 잠깐 쉬려던 일이 다시 긴 대화가 되지 않도록.</p></div><div class="break-visual"><div class="countdown"><span>10</span><small>MIN</small></div><p>10분 드릴게요.</p><div class="steam"><i></i><i></i><i></i></div></div></article>
+            <article class="moment-panel" data-panel="restore"><div class="moment-copy"><time>9시 48분</time><h3>방금 지운 것은<br />말 한마디로 돌아옵니다.</h3><p>“일요일 거 없애 줘.” 지웠습니다. “아, 잘못 지웠다. 되살려 줘.” 되살렸습니다. 방금 보여 준 목록을 아숨이 들고 있어 “일요일 거”라고만 해도 통합니다.</p></div><div class="restore-visual"><div class="event-slip deleted"><small>SUN 18:00</small><strong>저녁 약속</strong><span>삭제됨</span></div><svg viewBox="0 0 180 80" aria-hidden="true"><path d="M12 58 C55 4 112 6 165 42"/><path d="m151 27 14 15-19 7"/></svg><div class="event-slip restored"><small>SUN 18:00</small><strong>저녁 약속</strong><span>되살림</span></div></div></article>
+          </div>
+        </div>
+        <div class="day-conclusion reveal"><p>한 건에 3초, 하루에 네다섯 번.</p><strong>한 달이면 120번 넘게 흐름을 지킵니다.</strong><span>아끼는 건 몇십 분보다, 하던 일로 돌아오는 데 드는 힘입니다.</span></div>
+        <div class="after-capture reveal">
+          <div class="after-copy"><span class="section-index">말한 다음에도</span><h3>저장한 것은 숨지 않고,<br />필요할 때 먼저 보입니다.</h3><p>할 일은 바탕화면에 종이처럼 붙습니다. 손으로 옮기고 돌려 둘 수 있고, 세 시간 안에 일정이 있으면 남은 시간을 계속 보여 줍니다. 아침 브리핑·알림·타이머 종료는 아숨이 먼저 말합니다.</p></div>
+          <div class="desktop-paper-demo" aria-label="바탕화면 종이 할 일과 다가오는 일정 표시 예시">
+            <div class="paper-note note-one"><small>오늘 할 일</small><strong>발표 자료<br />마무리</strong><span>드래그해서 옮기기</span></div>
+            <div class="paper-note note-two"><small>다음 일정</small><strong>팀 회의</strong><span>2시간 38분 남음</span></div>
+            <div class="edge-clock"><b>02:38</b><span>회의까지</span></div>
+          </div>
+        </div>
+      </section>
+      <section class="friction-section" id="friction">
+        <div class="friction-copy reveal"><span class="section-index">03 — 왜 그 16초를 못 이기는가</span><h2>적히지 않은 일은<br /><em>머릿속에서 계속 켜져 있습니다.</em></h2><p>끝내지 못한 일은 다른 글을 읽는 동안에도 생각을 끼어들게 하고, 관계없는 문제를 푸는 성과까지 낮췄습니다. 2011년 Masicampo와 Baumeister의 연구가 확인한 현상입니다.</p><p><strong>중요한 건 일을 끝내는 것이 아니었습니다. 언제 어떻게 할지 구체적인 계획을 세우자, 이런 간섭 효과가 사라졌습니다.</strong></p><p>문제는 기억력이 아니라 계획으로 옮기기 전의 마찰입니다. 캘린더가 “열어야 하는 물건”인 한, 그 십몇 초를 매번 이겨야 합니다.</p><a class="research-link" href="https://pubmed.ncbi.nlm.nih.gov/21688924/" target="_blank" rel="noreferrer">연구 원문 정보 보기 <span>↗</span></a></div>
+        <div class="thought-system reveal" aria-label="머릿속에 남은 생각이 구체적인 계획으로 정리되는 시각화"><div class="thought-head"><i></i></div><span class="thought thought-a">월세 언제였지?</span><span class="thought thought-b">운동은 언제?</span><span class="thought thought-c">회의 자료…</span><span class="thought thought-d">뭐였더라?</span><span class="thought thought-e">이것도 해야 하는데</span><div class="plan-line"></div><div class="concrete-plan"><small>구체적인 계획</small><strong>내일 오전 10시<br />회의 자료 초안</strong><i>✓</i></div></div>
+      </section>
+      <section class="principles-section" id="principles">
+        <header class="principles-intro reveal"><span class="section-index">04 — 상주할 이유와 결정할 권한</span><h2>말은 AI가 듣고,<br /><em>결정은 코드가 합니다.</em></h2><p>떠 있는 입력창은 거슬리지만 캐릭터는 곁에 머물 수 있습니다. 그래서 아숨은 늘 가까이에 있습니다. 다만 가까이 있는 것과 마음대로 쓰는 것은 다른 문제입니다. AI에게 일정 쓰기 권한은 주지 않습니다.</p></header>
+        <div class="authority-pipeline reveal" aria-label="AI가 문장을 해석하고 코드가 검증한 뒤 로컬 파일에 저장하는 구조"><article class="pipeline-stage ai-stage"><span>01</span><h3>AI는 문장만 해석합니다</h3><div class="wave-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p>방금 한 말을 일정 후보로 바꿉니다. AI가 하는 일은 여기까지입니다.</p></article><div class="pipeline-link" aria-hidden="true"><i></i></div><article class="pipeline-stage code-stage"><span>02</span><h3>코드가 검증하고 결정합니다</h3><div class="code-gate"><b>&lt;/&gt;</b><i></i></div><p>대상·날짜·시간·충돌을 확인합니다. 모호하면 임의로 고르지 않고 되묻습니다.</p></article><div class="pipeline-link" aria-hidden="true"><i></i></div><article class="pipeline-stage local-stage"><span>03</span><h3>검증된 것만 로컬에 남습니다</h3><div class="file-vault"><i></i><b>schedule.json</b></div><p>일정은 서버가 아닌 내 컴퓨터의 파일 하나에 저장되고, 그대로 내보낼 수 있습니다.</p></article></div>
+        <div class="privacy-rail reveal"><div><strong>외부 AI로 가는 것</strong><span>방금 말한 문장 한 번</span></div><div><strong>컴퓨터에 남는 것</strong><span>일정과 할 일 전체</span></div><div><strong>타이핑 중 받는 것</strong><span>키가 눌린 사실과 시각만</span></div><div><strong>지운 일정이 가는 곳</strong><span>되살릴 수 있는 휴지통</span></div></div>
+      </section>
+      <section class="outcome-section"><span class="section-index">05 — 말한 다음까지</span><p class="outcome-line reveal">적는 데 <em>3초.</em><br />창은 <em>0번.</em></p><div class="outcome-copy reveal"><p>아숨은 적기만 하는 음성 입력기가 아닙니다. “면접 언제야?”라고 찾고, “몇 시간 남았어?”라고 이어 묻고, “금요일로 옮겨 줘”라고 고칩니다.</p><p>“오전에는 회의 잡지 마” 같은 기준은 다음 일정부터 기억합니다. 잘못 지운 것은 되살리고, 알림만 따로 끌 수도 있습니다.</p><blockquote>자기 관리가 되는 사람이 따로 있는 게 아닙니다.<br /><strong>적어 두는 사람이 있을 뿐입니다.</strong></blockquote></div></section>
+      <section class="limits-section" id="limits">
+        <div class="limits-copy reveal"><span class="section-index">06 — 안 되는 것</span><h2>어차피 알게 될 것은,<br /><em>미리 적겠습니다.</em></h2><p>약속할 수 없는 것은 약속하지 않겠습니다. 지금 되는 범위와 아직 안 되는 범위를 같은 무게로 적습니다.</p></div>
+        <ul class="limits-ledger"><li class="reveal"><span>01</span><div><strong>아직 쓰는 사람이 없습니다.</strong><p>후기도, 자랑할 사용자 수도 없습니다. 유료 고객 0명입니다.</p></div></li><li class="reveal"><span>02</span><div><strong>Windows 10/11만 됩니다.</strong><p>macOS 빌드는 아직 만들지 않았습니다.</p></div></li><li class="reveal"><span>03</span><div><strong>휴대폰에서는 볼 수 없습니다.</strong><p>기기 사이 동기화가 없습니다.</p></div></li><li class="reveal"><span>04</span><div><strong>돈은 다루지 않습니다.</strong><p>매출·급여·가계부 기능은 없습니다. 일정 앱이 장부까지 하려 들면 둘 다 어설퍼집니다.</p></div></li><li class="reveal"><span>05</span><div><strong>날씨를 모릅니다.</strong><p>바깥과 통신하는 것은 말을 알아듣는 그 한 번뿐입니다.</p></div></li><li class="reveal"><span>06</span><div><strong>말투가 들쭉날쭉합니다.</strong><p>같은 물음에 답이 조금씩 다를 수 있습니다. 일정 판정은 바뀌지 않습니다.</p></div></li></ul>
+        <div class="evidence reveal"><div class="evidence-copy"><span class="section-index">후기가 없어서 택한 검증</span><h3>틀릴 만한 문장부터,<br />먼저 돌립니다.</h3><p>간호사·자영업자·수험생·라이더·현장소장 등 생활 패턴이 다른 가상 사용자 34명을 만들었습니다. 각자의 일정을 채운 뒤, 오타·사투리·띄어쓰기 없는 문장까지 기대 결과와 함께 반복해서 확인합니다.</p></div><div class="evidence-numbers"><div><strong data-target="34">0</strong><span>가상 사용자</span></div><div><strong data-target="1020">0</strong><span>검증 문장</span></div><div><strong data-target="429">0</strong><span>자동 테스트</span></div><div><strong data-target="106">0</strong><span>설계 결정 기록</span></div></div></div>
+      </section>
+      <section class="price-section" id="price"><div class="price-copy reveal"><span class="section-index">07 — 값</span><h2>월 <strong>8,700원.</strong><br />하루 <em>290원.</em></h2><p>구독료는 자연어를 알아듣는 AI 비용에 쓰입니다. 일정과 할 일은 구독 중에도 내 컴퓨터를 떠나지 않습니다.</p><p><strong>결제를 멈춰도 말로 넣는 기능만 멈춥니다.</strong> 이미 저장한 일정은 계속 열리고, 파일 하나로 언제든 가져갈 수 있습니다.</p><div class="price-facts"><span>Windows 10/11</span><span>로그인 없음</span><span>로컬 파일 저장</span></div><a class="primary-cta" href="mailto:wob0217@gmail.com?subject=Adsum%20출시%20알림">Windows 베타 소식 받기 <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 14 14 4M7 4h7v7"/></svg></a></div><div class="price-visual reveal"><div class="local-cube"><span></span><i></i><b>내 일정</b><small>계속 열립니다</small></div><div class="price-bot state-idle" data-adsum-character data-gaze role="img" aria-label="로컬 일정 파일 옆의 아숨 캐릭터"></div><div class="promise">당신의 일정은<br /><strong>언제나 당신의 것.</strong></div></div></section>
+    </main>
+    <footer><a class="brand" href="#top" aria-label="Adsum 홈"><svg viewBox="0 0 42 42" aria-hidden="true"><path d="M21 4c5.2 0 7 5.1 8.9 8.1 2.1 3.2 8.2 2.2 8.2 8.9 0 5.6-5.6 7-9.1 8.1-3.4 1-3.9 8.9-10.1 8.9-6.4 0-6.3-7.3-9.8-9.2C6.2 27.2 3.9 24.5 3.9 21c0-5.6 5.2-7.3 8.1-9.2C14.9 9.9 15.6 4 21 4Z"/></svg><span>Adsum</span></a><p>적는 일을 의식하지 않게 되는 하루를 만듭니다.</p><span>© 2026 ADSUM</span></footer>
+  </body>
+</html>
