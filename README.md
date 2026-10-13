@@ -9,7 +9,7 @@
 
 **[→ adsum.page 보러 가기](https://leehwon0217.github.io/adsum-landing/)**
 
-<sub>Windows 10/11 · v0.1.0 · 월 8,700원 · 일정은 이 컴퓨터에만 저장됩니다</sub>
+<sub>Windows 10/11 · v0.1.0 · 월 3,700원 · 일정은 이 컴퓨터에만 저장됩니다</sub>
 
 ---
 
