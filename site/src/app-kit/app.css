@@ -1,0 +1,837 @@
+/* 자동 생성 — scripts/sync-from-app.mjs가 앱의 index.html <style>에서 가져온다. 손으로 고치지 않는다. */
+:root {
+        --primary: #465aa1;
+        --primary-container: #7c90db;
+        --on-primary: #ffffff;
+        --on-surface: #191c1e;
+        --on-surface-variant: #444651;
+        --surface-glass: rgba(255, 255, 255, 0.7);
+        --surface-lowest: #ffffff;
+        --surface-highest: #e1e2e4;
+        --outline-variant: #c5c5d2;
+        --tertiary-dim: #e5c18a;
+        --on-tertiary: #5b4217;
+        --status-active: #4ade80;
+        --priority-p0: #f87171;
+        --calendar-dot: #7c90db;
+        --error: #ba1a1a;
+
+        --xs: 4px;
+        --sm: 8px;
+        --md: 16px;
+        --lg: 24px;
+        --gutter: 12px;
+
+        --r: 4px;
+        --r-lg: 8px;
+        --r-xl: 12px;
+        --r-full: 9999px;
+
+        --shadow-ambient: 0 10px 30px rgba(124, 144, 219, 0.15);
+        --shadow-panel: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+        /* 유리 패널의 흐림. 투명 창에서 문제가 생기면 이 값만 none으로 바꾼다. */
+        --glass-blur: blur(20px);
+
+        /* ═══ 배치 ═══
+           창은 작업 영역 전체를 덮고 움직이지 않는다 (ADR-029).
+           캐릭터가 창 안 어디에나 설 수 있으므로 자리는 JS가 left/top으로 정한다.
+           여기 있는 건 CSS가 직접 쓰는 값뿐이다 — 나머지는 src/main.ts의 상수. */
+        --char-size: 116px;
+
+        /* 메뉴가 캐릭터를 감싸는 호의 반지름 */
+        --menu-radius: 88px;
+        --menu-btn: 40px;
+
+        --chat-w: 320px;
+
+        /*
+          글씨 (ADR-126). 둘 다 앱 안에 들어 있다 — 인터넷 없이도 보인다 (src/main.ts에서 불러온다).
+          프리텐다드: 읽는 글씨 전부. 주아: 아숨의 목소리(말풍선)와 제목 — 작은 글씨에 쓰면 뭉개진다.
+          주아는 굵기가 하나뿐이라 굵게 하면 가짜로 두꺼워진다 — 주아 자리는 굵기를 400으로 둔다.
+        */
+        --font-body: "Pretendard Variable", "Pretendard", "Malgun Gothic", -apple-system, system-ui, sans-serif;
+        --font-voice: "Jua", "Pretendard Variable", "Malgun Gothic", sans-serif;
+
+        /*
+          말풍선 재질 (ADR-118). 유리(70% 흰색)는 어두운 바탕에서 탁한 회색이 됐다 —
+          거의 불투명한 종이에 그림자 두 겹(붙은 그림자 + 넓은 그림자)과 위쪽 광택을 준다.
+        */
+        --bubble-bg: rgba(255, 255, 255, 0.94);
+        --bubble-ink: #191c21;
+        --bubble-edge: rgba(25, 28, 32, 0.09);
+        --bubble-radius: 18px;
+        --bubble-shadow:
+          inset 0 1px 1px 0 rgba(255, 255, 255, 0.95),
+          0 3px 6px -1px rgba(16, 24, 40, 0.08),
+          0 12px 28px -4px rgba(16, 24, 40, 0.16);
+      }
+
+      
+
+/* ═══ 캐릭터 ═══
+         left/top은 JS가 넣는다. 여기 값은 첫 프레임에 화면 밖으로 튀지 않게 두는 것뿐. */
+      #character-layer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: var(--char-size);
+        height: var(--char-size);
+        display: grid;
+        place-items: center;
+        animation: float 4s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+
+      /*
+        캐릭터 뒤 글로우.
+
+        `filter: blur()`를 쓰면 상자 밖으로 번진 부분이 창 경계에서 각지게 잘린다.
+        여백을 아무리 줘도 blur는 반경의 몇 배까지 번지므로 완전히 없앨 수 없다.
+        radial-gradient는 상자 안에서 이미 투명해지므로 잘릴 가장자리가 없다 (ADR-026).
+      */
+      #glow {
+        position: absolute;
+        inset: -48px;
+        background: radial-gradient(
+          circle closest-side,
+          var(--primary-container) 0%,
+          color-mix(in srgb, var(--primary-container) 45%, transparent) 35%,
+          transparent 72%
+        );
+        opacity: 0.45;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      }
+
+      #character-layer:hover #glow { opacity: 0.75; }
+      #character-layer.menu-open #glow { opacity: 0.9; }
+
+      /* 로봇을 감싸는 칸. 등장 모션이 여기 걸린다 —
+         #character-layer에는 float가 이미 걸려 있어 둘을 같이 못 준다. */
+      #character-wrapper {
+        position: relative;
+        z-index: 1;
+        width: var(--char-size);
+        height: var(--char-size);
+        display: grid;
+        place-items: center;
+      }
+
+      #robot {
+        position: relative;
+        width: var(--char-size);
+        height: var(--char-size);
+        /* 픽셀 아트는 보간하면 뭉갠다 */
+        image-rendering: pixelated;
+        cursor: grab;
+        transition: transform 100ms ease-out;
+        transform-style: preserve-3d;
+      }
+
+      #robot:active { cursor: grabbing; }
+
+      .pupil { transition: transform 100ms ease-out; }
+
+      /*
+        볼터치 (베이비 핑크).
+
+        얼굴판이 거의 흰색(#f8f9fb)이라 진한 분홍은 화장처럼 뜬다.
+        옅게 깔고 살짝 비쳐 보이게 둔다.
+
+        색을 변수로 빼 둔다 — 기한이 다가올수록 붉어지는 것을 붙일 자리다.
+      */
+      :root {
+        --blush: #ffc7d3;
+        /* 달아올랐을 때. 채도만 올리면 화상처럼 보여서 붉은 기만 더한다 */
+        --blush-hot: #ff7a8a;
+        /* 0% = 평소, 100% = 코앞. Character.setUrgency가 쓴다 (ADR-101) */
+        --blush-mix: 0%;
+      }
+
+      .blush {
+        fill: color-mix(in srgb, var(--blush-hot) var(--blush-mix), var(--blush));
+        opacity: 0.85;
+        transition: fill 500ms ease;
+      }
+
+      /*
+        땀 (ADR-101).
+
+        평소엔 없다. 급해지면 나타나 한 방울씩 흘러내린다.
+        steps()로 끊는다 — 부드럽게 흐르면 픽셀 아트가 아니게 된다.
+      */
+      #bot-sweat { fill: #8fd3f4; opacity: 0; transition: opacity 400ms ease; }
+      #bot-sweat .glint { fill: #ffffff; opacity: 0.75; }
+
+      .sweating #bot-sweat {
+        opacity: 1;
+        animation: drip 1.6s steps(4) infinite;
+      }
+
+      @keyframes drip {
+        0% { transform: translateY(0); opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { transform: translateY(7px); opacity: 0; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        /* 흘러내리지 않아도 "땀이 났다"는 것은 보인다 */
+        .sweating #bot-sweat { animation: none; }
+      }
+
+      /* ═══ 상태: entrance — 차원문 ═══
+         steps()로 끊어 돌린다. 부드럽게 만들면 픽셀 아트 느낌이 사라진다. */
+      #rift {
+        position: absolute;
+        inset: -40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #rift svg {
+        width: 160px;
+        height: 200px;
+        transform-origin: center;
+      }
+
+      .state-entrance #rift { opacity: 1; }
+
+      .state-entrance #rift svg {
+        animation:
+          rift-open 0.8s steps(5, end) forwards,
+          rift-close 0.6s steps(5, end) 1.5s forwards;
+      }
+
+      @keyframes rift-open {
+        0% { transform: scaleX(0) scaleY(0); opacity: 0; }
+        30% { transform: scaleX(1) scaleY(0.1); opacity: 1; }
+        60% { transform: scaleX(1.2) scaleY(1); opacity: 1; }
+        100% { transform: scaleX(1) scaleY(1); opacity: 1; }
+      }
+
+      @keyframes rift-close {
+        0% { transform: scaleX(1) scaleY(1); opacity: 1; }
+        40% { transform: scaleX(1.2) scaleY(0.1); opacity: 1; }
+        100% { transform: scaleX(0) scaleY(0); opacity: 0; }
+      }
+
+      @keyframes bot-entrance {
+        0% { transform: scale(0); opacity: 0; }
+        50% { transform: scale(0.5); opacity: 0; }
+        80% { transform: scale(1.1); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
+      /* opacity 0은 여기서만. 상태 클래스가 빠지면 다시 1로 돌아와야 한다. */
+      .state-entrance #character-wrapper {
+        opacity: 0;
+        animation: bot-entrance 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
+      }
+
+      #particles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .particle {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        animation-name: particle-fly;
+        animation-timing-function: steps(6, end);
+        animation-fill-mode: forwards;
+        pointer-events: none;
+      }
+
+      @keyframes particle-fly {
+        0% { transform: translate(0, 0) scale(1); opacity: 1; }
+        100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+      }
+
+      /* ═══ 상태: working — 노트북 ═══ */
+      #bot-laptop,
+      /*
+        인사 (ADR-102).
+
+        손목을 축으로 돈다. 원점을 안 잡으면 SVG 원점(0,0)을 중심으로 돌아
+        손이 화면 밖으로 날아간다.
+
+        **steps()로 끊는다.** 부드럽게 돌리면 픽셀 아트가 아니라
+        회전하는 이미지로 보인다 — 등장 연출과 같은 규칙이다.
+      */
+      #bot-wave {
+        transform-box: fill-box;
+        transform-origin: 30% 95%;
+        opacity: 0;
+      }
+
+      .state-entrance #bot-wave {
+        animation: bot-hi 0.95s steps(1, end) 1.5s both;
+      }
+
+      @keyframes bot-hi {
+        0%   { opacity: 0; transform: rotate(0deg); }
+        14%  { opacity: 1; transform: rotate(-4deg); }
+        30%  { opacity: 1; transform: rotate(-18deg); }
+        46%  { opacity: 1; transform: rotate(12deg); }
+        62%  { opacity: 1; transform: rotate(-14deg); }
+        78%  { opacity: 1; transform: rotate(8deg); }
+        92%  { opacity: 1; transform: rotate(0deg); }
+        100% { opacity: 0; transform: rotate(0deg); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        /* 흔들지 않아도 손을 든 것은 보인다 */
+        .state-entrance #bot-wave { animation: bot-hi-still 0.95s steps(1, end) 1.5s both; }
+        @keyframes bot-hi-still {
+          0%, 100% { opacity: 0; }
+          14%, 92% { opacity: 1; }
+        }
+      }
+
+      #bot-hands {
+        /* 기본 transform-origin은 SVG 원점이라 scale이 한쪽으로 쏠린다 */
+        transform-box: fill-box;
+        transform-origin: center;
+        opacity: 0;
+        /*
+          들어올 때는 튕기며 나타나고, **나갈 때는 빨리 사라진다** (ADR-068).
+          타자를 멈췄는데 노트북이 천천히 접히면 아직 치고 있는 것처럼 보인다.
+        */
+        transition: opacity 0.08s ease-out, transform 0.08s ease-out;
+      }
+
+      .state-working #bot-laptop,
+      .state-working #bot-hands {
+        transition: opacity 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+          transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      #bot-laptop { transform: translateY(8px) scale(0.8); }
+      #bot-hands { transform: translateY(8px); }
+
+      .state-working #bot-laptop { opacity: 1; transform: translateY(0) scale(1); }
+      .state-working #bot-hands { opacity: 1; transform: translateY(2px); }
+
+      @keyframes bot-working-tilt {
+        0%, 100% { transform: rotate(-5deg) translateY(2px); }
+        50% { transform: rotate(-3deg) translateY(0); }
+      }
+
+      @keyframes bot-typing {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-2px); }
+        100% { transform: translateY(0); }
+      }
+
+      /* 애니메이션은 그 상태일 때만 돈다 — 상주 앱이라 유휴 CPU가 중요하다 */
+      .state-working #robot { animation: bot-working-tilt 0.4s infinite; }
+      .state-working .hand-l { animation: bot-typing 0.15s infinite; }
+      .state-working .hand-r { animation: bot-typing 0.2s infinite 0.05s; }
+
+      #laptop-glow {
+        position: absolute;
+        left: 50%;
+        bottom: 6px;
+        width: 96px;
+        height: 44px;
+        transform: translateX(-50%);
+        background: rgba(182, 196, 255, 0.4);
+        filter: blur(20px);
+        mix-blend-mode: screen;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      }
+
+      .state-working #laptop-glow { opacity: 1; }
+
+      /* ═══ 상태: thinking — 말풍선 ═══ */
+      #think-bubble {
+        position: absolute;
+        top: -24px;
+        right: -16px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 9px 11px;
+        border-radius: var(--bubble-radius);
+        background: var(--bubble-bg);
+        -webkit-backdrop-filter: var(--glass-blur);
+        backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--bubble-edge);
+        box-shadow: var(--bubble-shadow);
+        opacity: 0;
+        transform: translateY(10px) scale(0.8);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      #think-bubble span {
+        width: 6px;
+        height: 6px;
+        border-radius: var(--r-full);
+        background: color-mix(in srgb, var(--on-surface) 65%, transparent);
+      }
+
+      /* 머리로 내려가는 작은 동그라미 둘 — 상자가 아니라 생각이라는 표시 */
+      #think-bubble::before,
+      #think-bubble::after {
+        content: "";
+        position: absolute;
+        border-radius: var(--r-full);
+        background: var(--bubble-bg);
+        border: 1px solid var(--bubble-edge);
+        box-shadow: 0 2px 4px rgba(16, 24, 40, 0.08);
+      }
+      #think-bubble::before { width: 9px; height: 9px; left: 4px; bottom: -8px; }
+      #think-bubble::after { width: 5px; height: 5px; left: -2px; bottom: -15px; }
+
+      .state-thinking #think-bubble { opacity: 1; transform: translateY(0) scale(1); }
+
+      .state-thinking #think-bubble span { animation: think-bounce 1.3s ease-in-out infinite; }
+      .state-thinking #think-bubble span:nth-child(2) { animation-delay: 0.2s; }
+      .state-thinking #think-bubble span:nth-child(3) { animation-delay: 0.4s; }
+
+      @keyframes think-bounce {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-6px); }
+      }
+
+      @keyframes bot-thinking-tilt {
+        0%, 100% { transform: rotate(10deg); }
+        50% { transform: rotate(15deg) translateY(-5px); }
+      }
+
+      .state-thinking #robot { animation: bot-thinking-tilt 3s ease-in-out infinite; }
+
+      /* ═══ 반응·기분 모션 (ADR-112) ═══
+         Stitch로 만든 13개를 앱에 맞춰 옮겼다. 상태 클래스는 Character.ts가 붙인다.
+
+         **#robot에 거는 움직임은 키트의 절반이다.** 키트는 232px, 앱 캐릭터는 116px —
+         그대로 옮기면 찌르기 한 번에 키의 14%만큼 튀어 오른다.
+         SVG 안 부위의 px는 viewBox 단위(1px = 스프라이트 한 칸)다. */
+
+      /* 하트·별·공·z가 32칸 밖으로 나가도 잘리지 않는다 */
+      #robot { overflow: visible; }
+
+      #bot-eyes-squint, #bot-eyes-happy, #bot-eyes-flat, #bot-blush-puffed,
+      #bot-hands-up, #bot-arms-crossed, #bot-arm-raised, #bot-arms-up,
+      #bot-bat, #bot-ball, #bot-heart, #bot-alert, #bot-zzz, #bot-sparkles, #bot-dots-sulking {
+        display: none;
+      }
+
+      /* 눈을 바꾸는 상태는 원래 눈을 감춘다 */
+      :is(.state-poked, .state-petted, .state-tickled, .state-sulking, .state-welcome,
+          .state-dozing, .state-stretch, .state-cheer, .state-goodbye) :is(.base-eye, .pupil) {
+        display: none;
+      }
+
+      /* 볼이 달아오르는 반응. 색은 급함과 같은 변수다 (ADR-101) */
+      :is(.state-petted, .state-tickled, .state-welcome, .state-cheer) .blush {
+        fill: var(--blush-hot);
+        opacity: 1;
+      }
+      #bot-heart, #bot-blush-puffed { fill: var(--blush-hot); }
+
+      /* 1. 찌르기 — 한 번 */
+      .state-poked #bot-eyes-squint { display: block; }
+      .state-poked #robot { animation: bot-poked-reaction 0.48s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+      @keyframes bot-poked-reaction {
+        0% { transform: scale(1.12, 0.88); }
+        25% { transform: translateY(-8px) rotate(6deg) scale(0.98, 1.04); }
+        50% { transform: translateY(-2px) rotate(-2deg) scale(1.02, 0.98); }
+        75% { transform: translateY(0) rotate(1deg); }
+        100% { transform: none; }
+      }
+
+      /* 2. 쓰다듬기 — 한 번 */
+      .state-petted #bot-eyes-happy { display: block; }
+      .state-petted #robot { animation: bot-petted-wiggle 0.9s ease-in-out both; }
+      .state-petted #bot-heart {
+        display: block;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: bot-petted-heart 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      @keyframes bot-petted-wiggle {
+        0%, 100% { transform: none; }
+        20% { transform: rotate(-5deg) translateY(-1px); }
+        45% { transform: rotate(5deg) translateY(-1px); }
+        70% { transform: rotate(-3deg); }
+        85% { transform: rotate(2deg); }
+      }
+      @keyframes bot-petted-heart {
+        0% { transform: translateY(2px) scale(0.4); opacity: 0; }
+        20% { transform: translateY(-2px) scale(1.15); opacity: 1; }
+        70% { transform: translateY(-7px) scale(1); opacity: 0.9; }
+        100% { transform: translateY(-10px) scale(0.9); opacity: 0; }
+      }
+
+      /* 3. 간지럼 — 연타가 이어지는 동안 */
+      .state-tickled #bot-eyes-squint, .state-tickled #bot-hands-up { display: block; }
+      .state-tickled #robot { animation: bot-tickled-shake 0.12s steps(2, end) infinite; }
+      @keyframes bot-tickled-shake {
+        0%, 100% { transform: translate(-1.5px, 0.5px) rotate(-3deg); }
+        50% { transform: translate(1.5px, -0.5px) rotate(3deg); }
+      }
+
+      /* 4. 삐짐 — 쓰다듬을 때까지. 무섭지 않게, 고개만 돌린다 */
+      .state-sulking #bot-eyes-flat, .state-sulking #bot-arms-crossed, .state-sulking #bot-blush-puffed { display: block; }
+      .state-sulking #bot-dots-sulking { display: block; animation: bot-sulking-dots 1.5s steps(3, end) infinite; }
+      .state-sulking #robot { animation: bot-sulking-huff 2s ease-in-out infinite; }
+      @keyframes bot-sulking-huff {
+        0%, 100% { transform: rotate(8deg) translateY(1px) scale(0.96); }
+        50% { transform: rotate(8deg) translateY(1px) scale(0.96, 0.99); }
+      }
+      @keyframes bot-sulking-dots {
+        0%, 100% { opacity: 0.3; transform: translateY(0); }
+        50% { opacity: 1; transform: translateY(-1px); }
+      }
+
+      /* 5. 손 들기 — 할 말이 있다. 먼저 챙기기가 생기면 붙인다. "!"는 깜빡이기만 한다 */
+      .state-raise-hand #bot-arm-raised {
+        display: block;
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+        animation: bot-hand-wave 1.2s ease-in-out infinite;
+      }
+      .state-raise-hand #bot-alert { display: block; animation: bot-alert-blink 1.2s steps(1, end) infinite; }
+      @keyframes bot-hand-wave {
+        0%, 100% { transform: none; }
+        50% { transform: rotate(10deg); }
+      }
+      @keyframes bot-alert-blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+
+      /* 6. 반가움 — 두 번 뛰고 끝 */
+      .state-welcome #bot-eyes-happy { display: block; }
+      .state-welcome #bot-hands-up { display: block; animation: bot-hands-greet 0.3s ease-in-out 4 alternate both; }
+      .state-welcome #robot { animation: bot-welcome-hop 0.6s cubic-bezier(0.28, 0.84, 0.42, 1) 2 both; }
+      @keyframes bot-welcome-hop {
+        0%, 100% { transform: translateY(0) scale(1.05, 0.95); }
+        50% { transform: translateY(-8px) scale(0.95, 1.05); }
+      }
+      @keyframes bot-hands-greet {
+        from { transform: translateY(0); }
+        to { transform: translateY(-3px); }
+      }
+
+      /* 7. 듣기 — 말하는 동안 살짝 다가와 가끔 끄덕인다 */
+      .state-listening #robot { animation: bot-listening-nod 2.4s ease-in-out infinite; }
+      @keyframes bot-listening-nod {
+        0%, 70%, 100% { transform: translateY(1px) scale(1.02); }
+        80% { transform: translateY(1px) scale(1.02) rotate(3deg); }
+      }
+
+      /* 8. 혼자 야구 — 한가할 때. 배트는 손잡이를 축으로 돈다 */
+      .state-baseball #bot-bat {
+        display: block;
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+        animation: bot-bat-swing 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      .state-baseball #bot-ball {
+        display: block;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: bot-ball-arc 1.8s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+      }
+      .state-baseball #robot { animation: bot-baseball-shift 1.8s ease-in-out infinite; }
+      @keyframes bot-bat-swing {
+        0%, 45% { transform: rotate(-25deg); }
+        50% { transform: rotate(45deg); }
+        70%, 100% { transform: rotate(-25deg); }
+      }
+      @keyframes bot-ball-arc {
+        0% { transform: translate(-10px, -8px) scale(0.6); opacity: 0; }
+        15% { opacity: 1; }
+        48% { transform: translate(20px, 2px) scale(1); opacity: 1; }
+        52% { transform: translate(22px, 1px) scale(1.1); }
+        75% { transform: translate(34px, -18px) scale(0.5); opacity: 0; }
+        100% { transform: translate(34px, -18px) scale(0); opacity: 0; }
+      }
+      @keyframes bot-baseball-shift {
+        0%, 45% { transform: rotate(-3deg); }
+        52% { transform: rotate(5deg) scaleX(1.04); }
+        65%, 100% { transform: none; }
+      }
+
+      /* 9. 졸기 — 밤늦게 */
+      .state-dozing #bot-eyes-flat { display: block; }
+      .state-dozing #bot-zzz {
+        display: block;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: bot-zzz-float 2.4s ease-in-out infinite;
+      }
+      .state-dozing #robot { animation: bot-doze-nod 3s ease-in-out infinite; }
+      @keyframes bot-doze-nod {
+        0%, 100% { transform: none; }
+        40% { transform: translateY(1.5px) rotate(4deg); }
+        65% { transform: translateY(3px) rotate(8deg); }
+        75% { transform: translateY(0.5px) rotate(-1deg); }
+      }
+      @keyframes bot-zzz-float {
+        0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+        25%, 75% { opacity: 0.9; }
+        100% { transform: translate(4px, -8px) scale(1.2); opacity: 0; }
+      }
+
+      /* 10. 기지개 — 오늘 일정이 다 끝났을 때 한 번 */
+      .state-stretch #bot-eyes-squint, .state-stretch #bot-arms-up { display: block; }
+      .state-stretch #robot { animation: bot-stretch 1.2s cubic-bezier(0.45, 0, 0.55, 1) both; }
+      @keyframes bot-stretch {
+        0%, 100% { transform: none; }
+        35% { transform: scale(0.85, 1.2) translateY(-5px); }
+        70% { transform: scale(1.15, 0.92) translateY(1px); }
+      }
+
+      /*
+        11. 긴장 — 바쁜 날. **몇 시간씩 켜져 있는 모션이다.**
+        Stitch 것은 쉬지 않고 떨었다 — 일하는 내내 곁눈에 걸린다. 4초에 한 번, 잠깐만 떤다.
+        땀은 원래 있던 것(ADR-101)을 그대로 쓴다.
+      */
+      .state-nervous #bot-sweat { opacity: 1; animation: drip 1.6s steps(4) infinite; }
+      .state-nervous #robot { animation: bot-shiver 4s steps(1, end) infinite; }
+      @keyframes bot-shiver {
+        0%, 92%, 100% { transform: none; }
+        94% { transform: translateX(-1px); }
+        96% { transform: translateX(1px); }
+        98% { transform: translateX(-1px); }
+      }
+
+      /* 12. 축하 — 할 일을 끝냈을 때 한 번. 별은 돌리지 않고 반짝인다 */
+      .state-cheer #bot-eyes-happy, .state-cheer #bot-hands-up { display: block; }
+      .state-cheer #bot-sparkles { display: block; animation: bot-sparkle 1.2s steps(4, end) both; }
+      .state-cheer #robot { animation: bot-cheer-jump 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) both; }
+      @keyframes bot-cheer-jump {
+        0%, 100% { transform: none; }
+        20% { transform: translateY(2px) scale(1.1, 0.9); }
+        50% { transform: translateY(-12px) scale(0.95, 1.1) rotate(6deg); }
+        70% { transform: translateY(-9px) rotate(-4deg); }
+        85% { transform: translateY(1px) scale(1.05, 0.95); }
+      }
+      @keyframes bot-sparkle {
+        0% { opacity: 0; }
+        25%, 75% { opacity: 1; }
+        50% { opacity: 0.4; }
+        100% { opacity: 0; }
+      }
+
+      /* 13. 퇴근 인사 — 손 흔들고 꾸벅, 다시 선다. Stitch 것은 흐려진 채 끝났다 */
+      .state-goodbye #bot-eyes-happy { display: block; }
+      .state-goodbye #bot-arm-raised {
+        display: block;
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+        animation: bot-wave-farewell 0.4s ease-in-out 4 alternate both;
+      }
+      .state-goodbye #robot { animation: bot-bow 1.6s ease-in-out both; }
+      @keyframes bot-wave-farewell {
+        from { transform: rotate(-5deg); }
+        to { transform: rotate(20deg); }
+      }
+      @keyframes bot-bow {
+        0%, 100% { transform: none; }
+        30% { transform: translateY(-2px) rotate(-4deg); }
+        60%, 80% { transform: translateY(1px) rotate(10deg); }
+      }
+
+      /*
+        움직임을 줄이면 자세만 남긴다. 눈·팔·하트 같은 **부위는 그대로 보인다** —
+        "기뻐한다"는 건 움직임 없이도 얼굴로 전해진다.
+      */
+      @media (prefers-reduced-motion: reduce) {
+        :is(.state-poked, .state-petted, .state-tickled, .state-sulking, .state-raise-hand, .state-welcome,
+            .state-listening, .state-baseball, .state-dozing, .state-stretch, .state-nervous, .state-cheer,
+            .state-goodbye) :is(#robot, #bot-heart, #bot-hands-up, #bot-dots-sulking, #bot-arm-raised,
+            #bot-alert, #bot-bat, #bot-ball, #bot-zzz, #bot-sparkles, #bot-sweat) {
+          animation: none;
+        }
+        .state-sulking #robot { transform: rotate(8deg) translateY(1px) scale(0.96); }
+        .state-cheer #bot-sparkles { opacity: 1; }
+      }
+
+      
+
+/* ═══ 아숨이 먼저 거는 말 (ADR-046) ═══
+         자리는 JS가 캐릭터 머리 위로 잡는다. 여기 값은 모양뿐이다. */
+      #say {
+        position: absolute;
+        left: 0;
+        top: 0;
+        /*
+          내용에 맞춰 늘었다 줄었다 한다 (ADR-058).
+          고정 폭이면 "네" 한 마디에도 상자가 크고, 일정 목록은 억지로 접힌다.
+        */
+        width: max-content;
+        max-width: min(420px, calc(100vw - 48px));
+        padding: 10px 16px;
+        background: var(--bubble-bg);
+        -webkit-backdrop-filter: var(--glass-blur);
+        backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--bubble-edge);
+        border-radius: var(--bubble-radius);
+        box-shadow: var(--bubble-shadow);
+        cursor: pointer;
+
+        /*
+          사라질 때는 꼬리 끝으로 빨리 접히고, 나타날 때는 꼬리 끝에서 튀어나온다 (ADR-118).
+          left/top은 JS가 넣는다. all이면 화면을 가로질러 날아온다 (ADR-037).
+        */
+        opacity: 0;
+        transform-origin: var(--tail-x, 50%) 100%;
+        transform: translateY(8px) scale(0.92);
+        transition:
+          opacity 0.18s ease-in,
+          transform 0.18s ease-in,
+          box-shadow 0.15s ease;
+      }
+
+      /*
+        메뉴 위로 올린다 (ADR-055). 메뉴는 DOM에서 뒤에 오므로 그냥 두면 말풍선을 덮는다.
+        자리도 비켜 두지만(main.ts의 placeSpeech) 겹칠 여지가 남으면 말이 안 보인다.
+      */
+      #say { z-index: 5; }
+
+      #say.shown {
+        opacity: 1;
+        transform: none;
+        transition:
+          opacity 0.2s ease-out,
+          transform 0.34s cubic-bezier(0.175, 0.885, 0.32, 1.175),
+          box-shadow 0.15s ease;
+      }
+      #say[hidden] { display: none; }
+      /* 누를 수 있는 물건이라 살짝 들린다 */
+      #say.shown:hover {
+        transform: translateY(-1px);
+        box-shadow:
+          inset 0 1px 1px 0 rgba(255, 255, 255, 0.95),
+          0 4px 8px -1px rgba(16, 24, 40, 0.1),
+          0 16px 32px -4px rgba(16, 24, 40, 0.2);
+      }
+
+      /*
+        꼬리 (ADR-118). 돌린 네모를 겹치면 이음새와 테두리가 따로 놀았다 —
+        몸통에서 자라 나오는 곡선 하나로 그린다. 가로 자리는 JS가 머리 위치로 넣는다(--tail-x).
+      */
+      .say-tail {
+        position: absolute;
+        left: var(--tail-x, 50%);
+        bottom: -10px;
+        width: 22px;
+        height: 11px;
+        margin-left: -11px;
+        overflow: visible;
+        pointer-events: none;
+      }
+      .tail-fill { fill: var(--bubble-bg); }
+      .tail-edge { fill: none; stroke: var(--bubble-edge); stroke-width: 1; }
+
+      /* 아숨이 먼저 거는 알림의 머리말 — 그냥 대답과 구별된다 (Stitch 씬 2) */
+      #say-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 2px;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 700;
+        color: var(--primary);
+      }
+      #say-label[hidden] { display: none; }
+      .say-ping {
+        position: relative;
+        flex: 0 0 auto;
+        width: 8px;
+        height: 8px;
+        border-radius: var(--r-full);
+        background: var(--primary-container);
+      }
+      .say-ping::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: inherit;
+        animation: say-ping 1.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+      }
+      @keyframes say-ping {
+        75%, 100% { transform: scale(2.2); opacity: 0; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #say, #say.shown { transition: opacity 0.15s linear; transform: none; }
+        .say-ping::after { animation: none; }
+      }
+
+      #say-text { display: block; color: var(--bubble-ink); }
+
+      /* ═══ 최소 마크다운 (ADR-053) ═══
+         굵게·목록·문단 셋만 그린다. 말풍선과 대화창이 같은 규칙을 쓴다. */
+
+      /*
+        한국어는 기본값이 **글자 단위 줄바꿈**이라 "오후 12:00~6:0" 에서 끊긴다 (ADR-058).
+        keep-all이면 띄어쓰기에서만 접힌다. 한 낱말이 줄보다 길 때만 anywhere가 받아준다.
+      */
+      .md-para,
+      .md-list {
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+      }
+
+      .md-para { margin: 0; }
+      .md-para + .md-para,
+      .md-para + .md-list,
+      .md-list + .md-para { margin-top: var(--sm); }
+
+      .md-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      /*
+        점은 ::before로 그린다. 기본 불릿은 들여쓰기를 브라우저가 정해서
+        좁은 말풍선에서 글자가 밀린다.
+      */
+      .md-list li {
+        position: relative;
+        padding-left: 11px;
+      }
+
+      .md-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.62em;
+        width: 4px;
+        height: 4px;
+        border-radius: var(--r-full);
+        background: var(--primary-container);
+      }
+
+      .md-para strong,
+      .md-list strong { font-weight: 600; }
+
+      

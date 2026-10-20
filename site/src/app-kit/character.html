@@ -1,0 +1,170 @@
+<div id="character-layer">
+        <!-- 차원문. 캐릭터 뒤에 깔린다 (등장 중에만 보임) -->
+        <div id="rift">
+          <svg viewBox="0 0 64 64" preserveAspectRatio="none" shape-rendering="crispEdges" aria-hidden="true">
+            <path
+              d="M24 4 h16 v4 h8 v8 h4 v32 h-4 v8 h-8 v4 h-16 v-4 h-8 v-8 h-4 v-32 h4 v-8 h8 z"
+              fill="#4a148c"
+            />
+            <path d="M28 12 h8 v4 h8 v32 h-8 v4 h-8 v-4 h-8 v-32 h8 z" fill="#3f51b5" />
+            <path d="M30 20 h4 v4 h4 v16 h-4 v4 h-4 v-4 h-4 v-16 h4 z" fill="#00bcd4" />
+          </svg>
+        </div>
+        <div id="particles"></div>
+        <div id="glow"></div>
+        <div id="laptop-glow"></div>
+
+        <div id="character-wrapper">
+        <svg id="robot" viewBox="0 0 32 32" shape-rendering="crispEdges" aria-label="Adsum">
+          <rect x="15" y="2" width="2" height="4" fill="#191c1e" />
+          <rect x="14" y="1" width="4" height="2" fill="#7c90db" />
+          <path d="M10 6 h12 v2 h2 v2 h2 v10 h-2 v4 h-4 v2 h-8 v-2 h-4 v-4 h-2 v-10 h2 v-2 h2 z" fill="#191c1e" />
+          <path d="M10 8 h12 v2 h2 v10 h-2 v2 h-4 v2 h-8 v-2 h-4 v-2 h-2 v-10 h2 z" fill="#ffffff" />
+          <path d="M10 24 h12 v2 h-12 z" fill="#e1e2e4" />
+          <path d="M8 12 h16 v8 h-16 z" fill="#e1e2e4" />
+          <path d="M10 12 h12 v8 h-12 z" fill="#f8f9fb" />
+          <rect class="base-eye" x="11" y="14" width="3" height="4" fill="#191c1e" />
+          <rect class="pupil" x="12" y="15" width="1" height="1" fill="#ffffff" />
+          <rect class="base-eye" x="18" y="14" width="3" height="4" fill="#191c1e" />
+          <rect class="pupil" x="19" y="15" width="1" height="1" fill="#ffffff" />
+
+          <!-- 반응할 때 바뀌는 눈 (ADR-112). 원래 눈(.base-eye·.pupil)은 그동안 숨는다 -->
+          <g id="bot-eyes-squint" aria-hidden="true">
+            <rect x="11" y="14" width="1" height="1" fill="#191c1e" />
+            <rect x="12" y="15" width="1" height="1" fill="#191c1e" />
+            <rect x="13" y="16" width="1" height="1" fill="#191c1e" />
+            <rect x="12" y="17" width="1" height="1" fill="#191c1e" />
+            <rect x="11" y="18" width="1" height="1" fill="#191c1e" />
+            <rect x="20" y="14" width="1" height="1" fill="#191c1e" />
+            <rect x="19" y="15" width="1" height="1" fill="#191c1e" />
+            <rect x="18" y="16" width="1" height="1" fill="#191c1e" />
+            <rect x="19" y="17" width="1" height="1" fill="#191c1e" />
+            <rect x="20" y="18" width="1" height="1" fill="#191c1e" />
+          </g>
+          <g id="bot-eyes-happy" aria-hidden="true">
+            <rect x="11" y="16" width="1" height="1" fill="#191c1e" />
+            <rect x="12" y="15" width="2" height="1" fill="#191c1e" />
+            <rect x="14" y="16" width="1" height="1" fill="#191c1e" />
+            <rect x="18" y="16" width="1" height="1" fill="#191c1e" />
+            <rect x="19" y="15" width="2" height="1" fill="#191c1e" />
+            <rect x="21" y="16" width="1" height="1" fill="#191c1e" />
+          </g>
+          <g id="bot-eyes-flat" aria-hidden="true">
+            <rect x="11" y="16" width="4" height="1" fill="#191c1e" />
+            <rect x="18" y="16" width="4" height="1" fill="#191c1e" />
+          </g>
+
+          <!--
+            볼터치. 눈 바로 아래 바깥쪽에 둔다 — 가운데를 비워야 얼굴로 읽힌다.
+            색을 CSS에 두는 이유: 기한이 다가올수록 붉어지는 것을 나중에 붙일 자리다
+            (tasks/backlog.md). 그때 이 변수만 바꾸면 된다.
+          -->
+          <rect class="blush" x="10" y="18" width="2" height="1" />
+          <rect class="blush" x="20" y="18" width="2" height="1" />
+          <g id="bot-blush-puffed" aria-hidden="true"><rect x="9" y="18" width="3" height="2" /></g>
+
+          <!--
+            땀방울 (ADR-101). 머리 오른쪽 바깥, 말풍선이 뜨는 위쪽은 피한다.
+            **색만으로는 색약인 사람에게 아무것도 안 전해진다.**
+            모양이 바뀌어야 색과 무관하게 보인다.
+          -->
+          <g id="bot-sweat" aria-hidden="true">
+            <rect x="25" y="8" width="1" height="1" />
+            <rect x="24" y="9" width="3" height="2" />
+            <rect x="25" y="11" width="1" height="1" />
+            <rect class="glint" x="24" y="9" width="1" height="1" />
+          </g>
+
+          <!-- 일하는 중에만 보인다 -->
+          <g id="bot-laptop">
+            <rect x="8" y="24" width="16" height="6" fill="#191c1e" />
+            <rect x="9" y="25" width="14" height="4" fill="#444651" />
+            <rect x="10" y="26" width="12" height="2" fill="#b6c4ff" />
+          </g>
+          <!--
+            포털에서 나오며 한 손 인사 (ADR-102).
+            **등장할 때만** 보인다. 노트북 치는 손(#bot-hands)과 따로 두는 이유는
+            그쪽이 working 상태에 묶여 있어서다 — 섞으면 타자 치다 손을 흔든다.
+          -->
+          <g id="bot-wave" aria-hidden="true">
+            <rect x="24" y="18" width="2" height="3" fill="#191c1e" />
+            <rect x="23" y="14" width="4" height="4" fill="#191c1e" />
+            <rect x="24" y="15" width="2" height="2" fill="#7c90db" />
+          </g>
+
+          <g id="bot-hands">
+            <g class="hand-l">
+              <rect x="8" y="22" width="4" height="3" fill="#191c1e" />
+              <rect x="9" y="23" width="2" height="1" fill="#7c90db" />
+            </g>
+            <g class="hand-r">
+              <rect x="20" y="22" width="4" height="3" fill="#191c1e" />
+              <rect x="21" y="23" width="2" height="1" fill="#7c90db" />
+            </g>
+          </g>
+
+          <!--
+            반응·기분 부위 (ADR-112). Stitch로 그렸다 — 앱에 맞춰 고친 것:
+            "!"를 32칸 안(머리 오른쪽 위)으로, 배트를 정수 좌표로, 삐짐 점을 안테나 옆으로.
+            몸 위에 그려져야 해서 맨 끝에 둔다.
+          -->
+          <g id="bot-hands-up" aria-hidden="true">
+            <rect x="6" y="15" width="3" height="3" fill="#191c1e" />
+            <rect x="7" y="16" width="1" height="1" fill="#7c90db" />
+            <rect x="23" y="15" width="3" height="3" fill="#191c1e" />
+            <rect x="24" y="16" width="1" height="1" fill="#7c90db" />
+          </g>
+          <g id="bot-arms-crossed" aria-hidden="true">
+            <rect x="10" y="21" width="12" height="3" fill="#191c1e" />
+            <rect x="11" y="22" width="10" height="1" fill="#7c90db" />
+          </g>
+          <g id="bot-arm-raised" aria-hidden="true">
+            <rect x="24" y="11" width="3" height="6" fill="#191c1e" />
+            <rect x="24" y="10" width="2" height="2" fill="#7c90db" />
+          </g>
+          <g id="bot-arms-up" aria-hidden="true">
+            <rect x="6" y="10" width="2" height="6" fill="#191c1e" />
+            <rect x="6" y="9" width="2" height="2" fill="#7c90db" />
+            <rect x="24" y="10" width="2" height="6" fill="#191c1e" />
+            <rect x="24" y="9" width="2" height="2" fill="#7c90db" />
+          </g>
+          <g id="bot-bat" aria-hidden="true">
+            <rect x="23" y="10" width="3" height="3" fill="#ffdead" />
+            <rect x="24" y="13" width="2" height="10" fill="#af8e5c" />
+          </g>
+          <g id="bot-ball" aria-hidden="true">
+            <rect x="1" y="13" width="2" height="2" fill="#ffffff" />
+            <rect x="1" y="13" width="1" height="1" fill="#ba1a1a" />
+          </g>
+          <g id="bot-heart" aria-hidden="true">
+            <rect x="14" y="0" width="2" height="1" />
+            <rect x="17" y="0" width="2" height="1" />
+            <rect x="13" y="1" width="7" height="1" />
+            <rect x="14" y="2" width="5" height="1" />
+            <rect x="15" y="3" width="3" height="1" />
+            <rect x="16" y="4" width="1" height="1" />
+          </g>
+          <g id="bot-alert" aria-hidden="true">
+            <rect x="26" y="2" width="2" height="4" fill="#465aa1" />
+            <rect x="26" y="7" width="2" height="1" fill="#465aa1" />
+          </g>
+          <g id="bot-zzz" aria-hidden="true">
+            <path d="M23 4 h3 v1 l-2 1 h2 v1 h-3 v-1 l2 -1 h-2 z" fill="#7c90db" />
+            <path d="M26 1 h3 v1 l-2 1 h2 v1 h-3 v-1 l2 -1 h-2 z" fill="#465aa1" />
+          </g>
+          <g id="bot-sparkles" aria-hidden="true">
+            <path d="M5 6 h1 v-1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 z" fill="#f59e0b" />
+            <path d="M26 5 h1 v-1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 z" fill="#ff7a8a" />
+            <path d="M4 18 h1 v-1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 z" fill="#7c90db" />
+            <path d="M27 20 h1 v-1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 z" fill="#4ade80" />
+          </g>
+          <g id="bot-dots-sulking" aria-hidden="true">
+            <rect x="21" y="3" width="1" height="1" fill="#757682" />
+            <rect x="23" y="3" width="1" height="1" fill="#757682" />
+            <rect x="25" y="3" width="1" height="1" fill="#757682" />
+          </g>
+        </svg>
+        </div>
+
+        <div id="think-bubble" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>

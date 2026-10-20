@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>아숨 · 말하면 저장되는 바탕화면 비서</title>
+    <meta name="description" content="바탕화면에 사는 아숨에게 말하면 일정과 할 일이 저장돼요. Windows 10/11, 월 3,700원, 2주 무료 체험." />
+    <meta property="og:title" content="아숨 · 말하면 저장되는 바탕화면 비서" />
+    <meta property="og:description" content="캘린더를 열지 않아도 돼요. 아숨에게 말하면 일정이 들어가요." />
+    <meta property="og:image" content="https://leehwon0217.github.io/adsum-landing/og.png" />
+    <meta property="og:url" content="https://leehwon0217.github.io/adsum-landing/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1117" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip" href="#main">본문으로 건너뛰기</a>
+
+    <header class="nav" data-nav>
+      <div class="wrap nav-inner">
+        <a class="brand" href="#top" aria-label="아숨 처음으로">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>아숨</span>
+        </a>
+        <nav aria-label="페이지 안 이동">
+          <ul class="nav-links">
+            <li><a href="#talk">말하는 법</a></li>
+            <li><a href="#day">하루</a></li>
+            <li><a href="#price">가격</a></li>
+          </ul>
+        </nav>
+        <a class="btn btn-primary btn-sm" href="#signup">체험판 소식</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- 첫 화면: 진짜 아숨이 떠 있다. 누르고, 쓰다듬고, 끌 수 있다 -->
+      <section class="hero" id="top">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <h1>말 한마디면 일정이 저장돼요</h1>
+            <p class="lede">바탕화면에 사는 아숨에게 말해 보세요. 캘린더를 열지 않아도 일정과 할 일이 들어가요.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#signup">체험판 소식</a>
+              <p class="hero-note">Windows 10과 11에서 2주 동안 무료로 써 볼 수 있어요.</p>
+            </div>
+          </div>
+
+          <div class="desk" data-desk aria-label="아숨을 직접 만져 볼 수 있는 바탕화면">
+            <div class="desk-glow" aria-hidden="true"></div>
+            <!-- 일하던 창 하나 — 아숨은 그 위에 떠 있다 -->
+            <div class="desk-window" aria-hidden="true">
+              <div class="desk-window-bar"><span>주간 보고.docx</span><i class="ph ph-minus" aria-hidden="true"></i><i class="ph ph-square" aria-hidden="true"></i><i class="ph ph-x" aria-hidden="true"></i></div>
+              <div class="desk-window-body"><span></span><span></span><span></span><span></span><span></span></div>
+            </div>
+            <div class="stage" data-stage>
+              <!-- 앱의 캐릭터·말풍선 마크업이 여기 들어간다 (src/app-kit) -->
+            </div>
+            <ul class="desk-hints" aria-label="해 볼 것">
+              <li data-hint="poke"><i class="ph ph-hand-tap hint-todo" aria-hidden="true"></i><i class="ph ph-check hint-done" aria-hidden="true"></i>눌러 보기</li>
+              <li data-hint="pet"><i class="ph ph-hand-waving hint-todo" aria-hidden="true"></i><i class="ph ph-check hint-done" aria-hidden="true"></i>위에서 좌우로 쓰다듬기</li>
+              <li data-hint="drag"><i class="ph ph-arrows-out-cardinal hint-todo" aria-hidden="true"></i><i class="ph ph-check hint-done" aria-hidden="true"></i>잡고 끌기</li>
+            </ul>
+            <div class="taskbar" aria-hidden="true">
+              <span class="taskbar-adsum"></span>
+              <span class="taskbar-clock"><time data-clock-time></time><time data-clock-date></time></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 말하는 법: 실제 문장과 실제 대답이 차례로 흐른다 -->
+      <section class="talk" id="talk">
+        <div class="wrap">
+          <h2 class="reveal">형식 없이 말해도 알아들어요</h2>
+          <p class="section-lede reveal">메신저에 쓰듯 말하면 아숨이 날짜와 시각을 알아듣고 캘린더에 넣어 둬요.</p>
+
+          <div class="talk-scene reveal" data-talk>
+            <div class="week" data-week aria-label="이번 주 캘린더"></div>
+            <div class="talk-side">
+              <div class="talk-adsum" data-talk-adsum></div>
+              <div class="talk-thread" aria-live="off">
+                <div class="talk-said" data-talk-said hidden></div>
+                <div class="talk-reply" data-talk-reply hidden></div>
+              </div>
+              <div class="talk-input" aria-hidden="true">
+                <span class="talk-typed" data-talk-typed></span><span class="caret"></span>
+                <span class="talk-send"><i class="ph-fill ph-paper-plane-right" aria-hidden="true"></i></span>
+              </div>
+              <ol class="talk-steps" data-talk-steps aria-label="예시 문장"></ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 하루: 아숨이 먼저 거는 말 -->
+      <section class="day" id="day">
+        <div class="wrap day-head">
+          <div>
+            <h2 class="reveal">먼저 챙겨 주는 하루</h2>
+            <p class="section-lede reveal">알림 창을 띄우지 않아요. 아숨이 화면 구석에서 말을 걸고, 누르면 닫혀요.</p>
+          </div>
+          <div class="day-nav">
+            <button type="button" data-day-prev aria-label="이전 시간"><i class="ph ph-arrow-left" aria-hidden="true"></i></button>
+            <button type="button" data-day-next aria-label="다음 시간"><i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <div class="day-track" data-day tabindex="0" aria-label="하루 동안 아숨이 하는 말, 옆으로 넘겨 보세요"></div>
+      </section>
+
+      <!-- 가격과 아직 안 되는 것 -->
+      <section class="price" id="price">
+        <div class="wrap price-grid">
+          <div class="price-card reveal">
+            <h2>한 달 3,700원</h2>
+            <p class="price-day">하루로 치면 123원이에요.</p>
+            <p>2주 동안 무료로 써 보고, 계속 쓸지 그때 정하세요. 체험판은 곧 이 페이지에서 내려받을 수 있어요.</p>
+            <a class="btn btn-primary" href="#signup">체험판 소식</a>
+          </div>
+          <div class="limits reveal">
+            <h3>아직 안 되는 것</h3>
+            <ul>
+              <li><span class="limit-icon"><i class="ph ph-desktop" aria-hidden="true"></i></span><span><strong>Windows 10과 11에서만 돼요.</strong> 맥과 휴대폰 앱은 아직 없어요.</span></li>
+              <li><span class="limit-icon"><i class="ph ph-calendar-x" aria-hidden="true"></i></span><span><strong>구글 캘린더와는 아직 이어지지 않아요.</strong> 연동은 만들고 있어요.</span></li>
+              <li><span class="limit-icon"><i class="ph ph-wifi-high" aria-hidden="true"></i></span><span><strong>말을 알아들을 때 인터넷이 필요해요.</strong> 한 번에 4~5초 걸려요.</span></li>
+              <li><span class="limit-icon"><i class="ph ph-lock-key" aria-hidden="true"></i></span><span><strong>일정은 내 컴퓨터에만 저장돼요.</strong> 서버에 올라가지 않아요.</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 체험판 — 아직 받는 곳이 없다. 열리면 여기에 내려받기 버튼이 생긴다 -->
+      <section class="signup" id="signup">
+        <div class="wrap signup-grid">
+          <div class="signup-copy reveal">
+            <h2>체험판은 곧 열어요</h2>
+            <p>2주 동안 무료로 써 보는 체험판을 준비하고 있어요. 열리면 이 자리에 내려받기 버튼이 생겨요.</p>
+          </div>
+          <div class="signup-adsum" data-signup-adsum aria-hidden="true"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="wrap foot-inner">
+        <span class="brand"><span class="brand-mark" aria-hidden="true"></span><span>아숨</span></span>
+        <p>Adsum은 라틴어로 "나는 여기 있다"예요. 혼자 만들고 있어요.</p>
+        <a href="https://github.com/LeeHwon0217/adsum-landing">GitHub</a>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
