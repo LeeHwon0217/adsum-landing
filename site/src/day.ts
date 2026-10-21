@@ -1,5 +1,5 @@
 /**
- * "출근부터 퇴근까지" — 시간마다 아숨이 하는 말과 포즈. 문장은 앱에 있는 그대로다
+ * "아침부터 밤까지" — 시간마다 아숨이 하는 말과 포즈. 문장은 앱에 있는 그대로다
  * (src/core/schedule/alerts.ts · care.ts · features/character/lines.ts, ADR-128 존댓말).
  */
 import { createAdsum } from "./pose";
