@@ -145,31 +145,21 @@ export function mountTalk(root: HTMLElement): void {
   ).observe(root);
 }
 
-/** 이번 주(일~토) 칸을 그린다. 오늘·내일·모레에 꼬리표. 돌려주는 건 오늘부터 세 칸의 일정 자리 */
+/** 오늘·내일·모레 세 칸을 그린다. 돌려주는 건 그 세 칸의 일정 자리 */
 function renderWeek(week: HTMLElement): HTMLElement[] {
   const today = new Date();
-  const sunday = new Date(today);
-  sunday.setDate(today.getDate() - today.getDay());
-  const slots: HTMLElement[] = [];
   const tags = ["오늘", "내일", "모레"];
-
   week.innerHTML = "";
-  for (let i = 0; i < 7; i++) {
-    const date = new Date(sunday);
-    date.setDate(sunday.getDate() + i);
-    const offset = Math.round((date.getTime() - today.getTime()) / 86_400_000);
+  return tags.map((tag, offset) => {
+    const date = new Date(today);
+    date.setDate(today.getDate() + offset);
     const cell = document.createElement("div");
     cell.className = "week-day";
-    if (i === today.getDay()) cell.setAttribute("data-today", "");
-    const tag = offset >= 0 && offset <= 2 && i - today.getDay() === offset ? tags[offset] : "";
-    cell.innerHTML = `<div class="week-head"><span>${WEEKDAYS[i]}</span><span class="week-num">${date.getDate()}</span><span class="week-tag">${tag}</span></div>`;
+    if (offset === 0) cell.setAttribute("data-today", "");
+    cell.innerHTML = `<div class="week-head"><span>${WEEKDAYS[date.getDay()]}</span><span class="week-num">${date.getDate()}</span><span class="week-tag">${tag}</span></div>`;
     week.append(cell);
-  }
-
-  // 내일·모레가 다음 주로 넘어가면(금·토) 마지막 칸에 쌓는다 — 장면이 끊기지 않게
-  const todayIndex = today.getDay();
-  for (let offset = 0; offset <= 2; offset++) slots.push(week.children[Math.min(todayIndex + offset, 6)] as HTMLElement);
-  return slots;
+    return cell;
+  });
 }
 
 function moveChip(chip: HTMLElement | undefined, time: string): void {

@@ -13,7 +13,7 @@ const GREETINGS = [
   "안녕하세요! 저는 아숨이에요.",
   "저한테 말을 걸면 일정이 저장돼요~",
   "평소엔 이렇게 화면 구석에 조용히 있어요.",
-  "위에서 좌우로 쓰다듬어 보세요!",
+  "머리 위를 좌우로 쓰다듬어 보세요!",
   "잡고 끌어도 돼요. 간지러워하지만요!",
 ];
 
@@ -38,7 +38,12 @@ const EDGE_PX = 14;
 const SAY_MS = 3200;
 /** 처음 화면에 들어오고 이만큼 뒤에 먼저 말을 건다 */
 const FIRST_HELLO_MS = 2600;
-const CLOCK_TICK_MS = 30_000;
+/** 넓은 화면에서 아숨이 서는 곳 — 화면 오른쪽, 제목 옆 */
+const HOME_X_RATIO = 0.72;
+const HOME_Y_RATIO = 0.5;
+/** 이보다 좁으면 글이 위, 아숨이 아래 */
+const NARROW_PX = 900;
+const HOME_BOTTOM_PX = 70;
 
 export function mountDesk(desk: HTMLElement): void {
   const stage = desk.querySelector<HTMLElement>("[data-stage]");
@@ -102,11 +107,11 @@ export function mountDesk(desk: HTMLElement): void {
   // 눈이 커서를 따라온다 — 앱은 화면 전체 커서를 받지만, 여기선 페이지 안 커서만 본다
   window.addEventListener("pointermove", (event) => adsum.lookAt(event.clientX, event.clientY), { passive: true });
 
-  // 오른쪽 아래, 앱에서처럼 구석에 선다
-  const home = () => ({
-    left: stage.clientWidth - layer.offsetWidth - Math.max(36, stage.clientWidth * 0.12),
-    top: stage.clientHeight - layer.offsetHeight - 16,
-  });
+  // 오른쪽 아래, 앱에서처럼 구석에 선다. 좁은 화면에선 글 아래 가운데쯤
+  const home = () =>
+    stage.clientWidth < NARROW_PX
+      ? { left: (stage.clientWidth - layer.offsetWidth) / 2, top: stage.clientHeight - layer.offsetHeight - HOME_BOTTOM_PX }
+      : { left: stage.clientWidth * HOME_X_RATIO - layer.offsetWidth / 2, top: stage.clientHeight * HOME_Y_RATIO - layer.offsetHeight / 2 };
   const start = home();
   adsum.setPosition(start.left, start.top);
 
@@ -120,10 +125,8 @@ export function mountDesk(desk: HTMLElement): void {
       adsum.start();
       window.setTimeout(() => speak("저를 눌러 보세요!"), FIRST_HELLO_MS);
     },
-    { threshold: 0.4 },
+    { threshold: 0.3 },
   ).observe(desk);
-
-  startClock(desk);
 
   // 창 크기가 바뀌면 바탕화면 밖으로 나가지 않게 다시 세운다
   new ResizeObserver(() => {
@@ -131,18 +134,4 @@ export function mountDesk(desk: HTMLElement): void {
     adsum.setPosition(now.left, now.top);
     placeSay();
   }).observe(stage);
-}
-
-/** 작업 표시줄 시계 — 보는 사람의 지금 시각이라 "내 바탕화면"처럼 보인다 */
-function startClock(desk: HTMLElement): void {
-  const time = desk.querySelector<HTMLElement>("[data-clock-time]");
-  const date = desk.querySelector<HTMLElement>("[data-clock-date]");
-  if (!time || !date) throw new Error("작업 표시줄 시계 자리가 없습니다.");
-  const tick = (): void => {
-    const now = new Date();
-    time.textContent = now.toLocaleTimeString("ko-KR", { hour: "numeric", minute: "2-digit" });
-    date.textContent = now.toLocaleDateString("ko-KR");
-  };
-  tick();
-  window.setInterval(tick, CLOCK_TICK_MS);
 }
