@@ -9,6 +9,7 @@ import "./styles.css";
 import { mountDay } from "./day";
 import { mountDesk } from "./desk";
 import { mountMood } from "./mood";
+import { mountPaging } from "./paging";
 import { createAdsum, setPose } from "./pose";
 import { mountTalk } from "./talk";
 
@@ -22,6 +23,7 @@ mountDesk(must<HTMLElement>("[data-desk]"));
 mountTalk(must<HTMLElement>("[data-talk]"));
 mountDay(must<HTMLElement>("[data-day]"));
 mountMood(must<HTMLElement>("[data-mood]"));
+mountPaging();
 // 한 장면에 한 포즈 — 장식이라 반응은 없다. 화면에 들어올 때마다 그 포즈를 처음부터 한다
 // (환호·기지개처럼 한 번만 도는 모션이 화면 밖에서 끝나 버리지 않게)
 const poses = new Map<Element, { adsum: HTMLElement; pose: string }>();

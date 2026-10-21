@@ -31,7 +31,9 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scrollbar-width: none; }
+/* 브라우저 스크롤바는 숨긴다 — 위치는 오른쪽 점(.dots)이 알려 준다 */
+html::-webkit-scrollbar { display: none; }
 body {
   margin: 0;
   background: var(--brand);
