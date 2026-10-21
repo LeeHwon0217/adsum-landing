@@ -26,7 +26,7 @@
 
     <main id="main">
       <!-- 1. 진짜 아숨이 이 화면 위에 산다. 누르고, 쓰다듬고, 끌 수 있다 -->
-      <section class="scene hero" id="top" data-scene="처음" data-desk>
+      <section class="scene hero" id="top" data-scene="처음" data-desc="진짜 아숨을 만져 봐요" data-desk>
         <div class="scene-inner">
           <div class="copy">
             <h1 class="title">말 한마디면 일정 저장 끝</h1>
@@ -44,7 +44,7 @@
       </section>
 
       <!-- 2. 왜 — "문제"라고 부르지 않고, 누구나 겪은 장면으로 꺼낸다 (docs/00-product.md "입력 마찰") -->
-      <section class="scene problem" id="why" data-scene="왜" data-tone="paper">
+      <section class="scene problem" id="why" data-scene="왜" data-desc="일정 하나 넣는 여섯 단계" data-tone="paper">
         <div class="scene-inner">
           <h2 class="title">적는 게 귀찮아서 안 적은 일정,&nbsp;있죠?</h2>
           <p class="body">캘린더가 나빠서가 아니에요. 일정 하나 넣으려면 이만큼 눌러야 하니까요.</p>
@@ -64,7 +64,7 @@
       </section>
 
       <!-- 3. 말로 저장: 실제 문장, 실제 대답 -->
-      <section class="scene" id="talk" data-scene="말로 저장">
+      <section class="scene" id="talk" data-scene="말로 저장" data-desc="말하면 캘린더에 들어가요">
         <div class="scene-inner split">
           <div class="copy">
             <p class="label"><i class="ph-fill ph-chat-circle-dots" aria-hidden="true"></i>말로 저장</p>
@@ -90,7 +90,7 @@
       </section>
 
       <!-- 4. 말로 다 돼요 — 대답은 실제 아숨이 한 그대로 (npm run agent, 2026-10-21) -->
-      <section class="chapter" id="more" data-scene="말로 다 돼요">
+      <section class="chapter" id="more" data-scene="말로 다 돼요" data-desc="반복, 빈 시간, 디데이, 타이머, 쉬기, 기억">
         <div class="scene statement">
           <div class="scene-inner">
             <p class="statement-text">넣는 것만 말로 하는&nbsp;게 아니에요</p>
@@ -190,7 +190,7 @@
       </section>
 
       <!-- 5. 먼저 챙김: 알림 창 대신 아숨이 손을 든다 -->
-      <section class="scene" id="care" data-scene="먼저 챙김">
+      <section class="scene" id="care" data-scene="먼저 챙김" data-desc="회의 30분 전에 불러요">
         <div class="scene-inner split flip">
           <div class="copy">
             <p class="label"><i class="ph-fill ph-bell-ringing" aria-hidden="true"></i>먼저 챙김</p>
@@ -204,7 +204,7 @@
       </section>
 
       <!-- 6. 하루: 시간마다 다른 아숨 -->
-      <section class="scene" id="day" data-scene="하루" data-tone="deep">
+      <section class="scene" id="day" data-scene="하루" data-desc="출근부터 퇴근까지" data-tone="deep">
         <div class="scene-inner">
           <div class="copy">
             <p class="label"><i class="ph-fill ph-sun-horizon" aria-hidden="true"></i>하루</p>
@@ -215,7 +215,7 @@
       </section>
 
       <!-- 7. 성격 — 삐지고, 간지러워한다 -->
-      <section class="chapter" id="mood" data-scene="성격">
+      <section class="chapter" id="mood" data-scene="성격" data-desc="삐지고, 간지러워해요">
         <div class="scene" id="mood-sulk">
           <div class="scene-inner split flip">
             <div class="copy">
@@ -243,7 +243,7 @@
       </section>
 
       <!-- 8. 숨은 기능 -->
-      <section class="scene" id="baseball" data-scene="숨은 기능" data-tone="deep">
+      <section class="scene" id="baseball" data-scene="숨은 기능" data-desc="/야구" data-tone="deep">
         <div class="scene-inner split">
           <div class="copy">
             <p class="label"><i class="ph-fill ph-baseball" aria-hidden="true"></i>숨은 기능</p>
@@ -257,7 +257,7 @@
       </section>
 
       <!-- 9. 가격과 아직 안 되는 것 -->
-      <section class="scene" id="price" data-scene="가격">
+      <section class="scene" id="price" data-scene="가격" data-desc="한 달 3,700원">
         <div class="scene-inner split">
           <div class="copy">
             <p class="label"><i class="ph-fill ph-coins" aria-hidden="true"></i>가격</p>
@@ -278,7 +278,7 @@
       </section>
 
       <!-- 10. 체험판 — 아직 받는 곳이 없다. 열리면 여기에 내려받기 버튼이 생긴다 -->
-      <section class="scene" id="trial" data-scene="체험판">
+      <section class="scene" id="trial" data-scene="체험판" data-desc="곧 열어요">
         <div class="scene-inner split">
           <div class="copy">
             <p class="label"><i class="ph-fill ph-gift" aria-hidden="true"></i>체험판</p>

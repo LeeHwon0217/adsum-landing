@@ -70,9 +70,17 @@ screens.forEach((screen) => reveal.observe(screen));
 // 오른쪽 점 — 화면 가운데를 지나는 장면이 지금 장면
 const dots = must<HTMLElement>("[data-dots]");
 const links = scenes.map((scene) => {
+  // 커서를 올리면 막대가 두꺼워지고 이름과 한 줄 설명이 뜬다. 누르면 그 섹션으로
   const link = document.createElement("a");
   link.href = `#${scene.id}`;
-  link.setAttribute("aria-label", scene.dataset.scene ?? scene.id);
+  const name = scene.dataset.scene ?? scene.id;
+  link.setAttribute("aria-label", name);
+  const label = document.createElement("span");
+  label.className = "dot-label";
+  label.innerHTML = `<b></b><small></small>`;
+  label.querySelector("b")!.textContent = name;
+  label.querySelector("small")!.textContent = scene.dataset.desc ?? "";
+  link.append(label);
   dots.append(link);
   return link;
 });
