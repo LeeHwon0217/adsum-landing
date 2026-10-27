@@ -462,6 +462,11 @@ export class Character {
   }
 
   /** 창 기준 논리 px. 창이 작업 영역에 딱 맞으므로 이게 곧 화면 위 자리다 (ADR-029). */
+  /** 심부름이든 산책이든 걷는 중이다 */
+  get isWalking(): boolean {
+    return this.walking;
+  }
+
   get position(): { left: number; top: number } {
     return { left: this.layer.offsetLeft, top: this.layer.offsetTop };
   }
@@ -492,26 +497,34 @@ export class Character {
    * 따라온다. CSS 트랜지션으로 하면 그 둘이 출발지에 남는다.
    *
    * 사용자가 끌기 시작하면 그만둔다. 심부름보다 손이 먼저다.
+   * 걷는 동안 `walking` 클래스로 통통 튀며 가는 쪽으로 기운다 (ADR-143).
+   * `shouldStop`이 참이 되면 그 자리에 선다 — 돌아다니다 말을 걸면 멈춘다 (ADR-144).
    */
-  walkTo(left: number, top: number): Promise<void> {
+  walkTo(left: number, top: number, durationMs: number = WALK_MS, shouldStop: () => boolean = () => false): Promise<void> {
     const from = this.position;
     const dx = left - from.left;
     const dy = top - from.top;
     if (Math.hypot(dx, dy) < 1) return Promise.resolve();
 
     this.walking = true;
+    this.layer.classList.add("walking");
+    this.layer.classList.toggle("face-left", dx < 0);
 
     return new Promise((resolve) => {
       const started = performance.now();
+      const arrive = (): void => {
+        this.walking = false;
+        this.layer.classList.remove("walking", "face-left");
+        resolve();
+      };
 
       const step = (): void => {
-        if (!this.walking || this.dragging) {
-          this.walking = false;
-          resolve();
+        if (!this.walking || this.dragging || shouldStop()) {
+          arrive();
           return;
         }
 
-        const t = Math.min(1, (performance.now() - started) / WALK_MS);
+        const t = Math.min(1, (performance.now() - started) / durationMs);
         // 출발과 도착에서 느리게 — 미끄러지지 않고 걸어간 것처럼 보인다
         const eased = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
 
@@ -521,8 +534,7 @@ export class Character {
           requestAnimationFrame(step);
           return;
         }
-        this.walking = false;
-        resolve();
+        arrive();
       };
 
       requestAnimationFrame(step);

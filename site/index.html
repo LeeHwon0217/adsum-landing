@@ -277,13 +277,34 @@
         </div>
       </section>
 
-      <!-- 10. 체험판 — 아직 받는 곳이 없다. 열리면 여기에 내려받기 버튼이 생긴다 -->
-      <section class="scene" id="trial" data-scene="체험판" data-desc="곧 열려요">
+      <!-- 10. 체험판 — 아직 받는 곳이 없다. 열리는 날 알려 드리게 이름·메일을 받는다 (src/signup.ts) -->
+      <section class="scene" id="trial" data-scene="체험판" data-desc="열리면 알려 드려요">
         <div class="scene-inner split">
           <div class="copy">
             <p class="label"><i class="ph-fill ph-gift" aria-hidden="true"></i>체험판</p>
             <h2 class="title">체험판은 곧&nbsp;열려요</h2>
-            <p class="body">2주 무료 체험판을 준비하고 있어요. 열리면 이 자리에 내려받기 버튼이 생겨요.</p>
+            <p class="body">2주 무료 체험판을 준비하고 있어요. 이름과 메일을 남겨 주시면 열리는 날 메일 한 통 드릴게요.</p>
+            <!-- method=post: 스크립트가 붙기 전에 눌려도 이름·메일이 주소창(기록·로그)에 남지 않게 -->
+            <form class="signup" data-signup method="post">
+              <div class="signup-fields">
+                <label class="field">
+                  <span>이름</span>
+                  <input name="name" autocomplete="name" required maxlength="40" />
+                </label>
+                <label class="field">
+                  <span>이메일</span>
+                  <input name="email" type="email" inputmode="email" autocomplete="email" required maxlength="254" />
+                </label>
+              </div>
+              <!-- 사람에겐 안 보이는 칸. 봇이 채우면 시트에 안 쌓는다 -->
+              <input class="signup-trap" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+              <label class="consent">
+                <input type="checkbox" name="consent" value="yes" required />
+                <span>개인정보 수집·이용에 동의해요 (필수). 이름과 메일은 체험판이 열렸다고 알려 드리는 데만 쓰고, 알려 드린 뒤 지워요. 동의하지 않으면 신청할 수 없어요.</span>
+              </label>
+              <button class="signup-send" type="submit">열리면 알려 주세요</button>
+              <p class="signup-status" data-signup-status role="status" aria-live="polite"></p>
+            </form>
           </div>
           <figure class="pose-figure" data-pose="welcome"></figure>
         </div>

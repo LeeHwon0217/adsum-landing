@@ -58,7 +58,9 @@ export function mountPaging(): void {
 
   window.addEventListener("keydown", (event) => {
     const direction = PAGE_KEYS[event.key];
-    if (!media.matches || !direction || event.target instanceof HTMLInputElement) return;
+    // 칸에 치거나 단추에 포커스가 있을 때의 스페이스·화살표는 그 칸의 것이다
+    const typing = event.target instanceof Element && event.target.closest("input, textarea, select, button");
+    if (!media.matches || !direction || typing) return;
     event.preventDefault();
     if (performance.now() < lockedUntil) return;
     go(event.shiftKey && event.key === " " ? -1 : direction);

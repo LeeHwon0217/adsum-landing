@@ -44,6 +44,8 @@
         --menu-btn: 40px;
 
         --chat-w: 320px;
+        /* 말풍선 모드의 입력창 — 대화 기록 모드 상자의 2/3. 넓으면 바탕화면을 너무 가린다 */
+        --chat-input-w: 214px;
 
         /*
           글씨 (ADR-126). 둘 다 앱 안에 들어 있다 — 인터넷 없이도 보인다 (src/main.ts에서 불러온다).
@@ -134,6 +136,18 @@
       }
 
       #robot:active { cursor: grabbing; }
+
+      /*
+        걷기 (ADR-041·143). "비켜줘"나 포스트잇 붙이러 갈 때 — 통통 튀며 가는 쪽으로 살짝 기운다.
+        #character-layer에는 float가, #robot에는 상태 모션이 걸려 있어 둘과 안 부딪히는 #character-wrapper에 건다.
+      */
+      #character-layer.walking { --walk-tilt: 5deg; }
+      #character-layer.walking.face-left { --walk-tilt: -5deg; }
+      #character-layer.walking #character-wrapper { animation: bot-walk-step 0.32s ease-in-out infinite; }
+      @keyframes bot-walk-step {
+        0%, 100% { transform: translateY(0) rotate(var(--walk-tilt)); }
+        50% { transform: translateY(-5px) rotate(var(--walk-tilt)); }
+      }
 
       .pupil { transition: transform 100ms ease-out; }
 
@@ -401,6 +415,24 @@
       #think-bubble::after { width: 5px; height: 5px; left: -2px; bottom: -15px; }
 
       .state-thinking #think-bubble { opacity: 1; transform: translateY(0) scale(1); }
+
+      /*
+        지금 하는 일 (ADR-136). 글이 붙으면 점은 작게 뒤로 — "…하는 중" 다음에 이어지는 말줄임처럼.
+        말풍선은 오른쪽 끝(right)에 붙어 있어서 글이 길어지면 왼쪽(머리 쪽)으로 자란다 —
+        아숨은 보통 화면 오른쪽 구석에 있어 오른쪽으로 자라면 화면 밖으로 나간다.
+      */
+      #think-bubble .think-label {
+        display: none;
+        font-family: var(--font-voice);
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 1;
+        color: var(--bubble-ink);
+        white-space: nowrap;
+        margin-right: 2px;
+      }
+      #think-bubble[data-doing] .think-label { display: block; }
+      #think-bubble[data-doing] span { width: 4px; height: 4px; }
 
       .state-thinking #think-bubble span { animation: think-bounce 1.3s ease-in-out infinite; }
       .state-thinking #think-bubble span:nth-child(2) { animation-delay: 0.2s; }
@@ -681,7 +713,8 @@
           고정 폭이면 "네" 한 마디에도 상자가 크고, 일정 목록은 억지로 접힌다.
         */
         width: max-content;
-        max-width: min(420px, calc(100vw - 48px));
+        /* 입력창과 같이 2/3로 줄였다 — 넓으면 바탕화면을 너무 가린다 */
+        max-width: min(280px, calc(100vw - 48px));
         padding: 10px 16px;
         background: var(--bubble-bg);
         -webkit-backdrop-filter: var(--glass-blur);
@@ -833,5 +866,39 @@
 
       .md-para strong,
       .md-list strong { font-weight: 600; }
+
+      /* ═══ 노트 (ADR-138) ═══
+         포스트잇이 이미 .note-* 를 쓴다 — 노트 화면은 .nb-* (notebook) */
+      #notes { width: 320px; max-height: 520px; }
+
+      /* 목록만 스크롤한다 — 머리(제목·닫기)는 늘 보여야 닫을 수 있다 */
+      #notes-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sm);
+        padding: 0 var(--md) var(--md);
+        overflow-y: auto;
+        min-height: 0;
+        scrollbar-width: none;
+      }
+      #notes-list::-webkit-scrollbar { display: none; }
+
+      .nb-card {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 12px 14px;
+        border-radius: var(--r-lg);
+        background: rgba(255, 255, 255, 0.62);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+      .nb-head { display: flex; align-items: flex-start; gap: var(--sm); }
+      .nb-title { flex: 1; margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+      .nb-delete { flex: none; width: 24px; height: 24px; margin: -2px -4px 0 0; opacity: 0.5; }
+      .nb-card:hover .nb-delete { opacity: 1; }
+      .nb-delete svg { width: 14px; height: 14px; }
+      .nb-body { color: var(--on-surface); overflow-wrap: anywhere; }
+      .nb-date { color: var(--on-surface-variant); }
+      .nb-empty { margin: 0; padding: var(--sm) 0; color: var(--on-surface-variant); }
 
       
