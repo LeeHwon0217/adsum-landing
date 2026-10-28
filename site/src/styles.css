@@ -256,6 +256,8 @@ h1, h2, h3, p, figure, ol, ul { margin: 0; }
 .statement-text { font-family: var(--font-voice); font-size: clamp(48px, 8vw, 128px); line-height: 1.12; max-width: 7.5em; margin-inline: auto; }
 .statement-sub { margin: 32px auto 0; max-width: 34ch; font-size: clamp(17px, 1.4vw, 21px); color: var(--on-brand-soft); }
 .scene[data-tone="paper"] .statement-sub { color: var(--ink-soft); }
+/* 종이 바탕의 본문 — 기본 본문은 파란 바탕용 흰 글씨라 그대로 두면 안 보인다 */
+.scene[data-tone="paper"] .copy .body { color: var(--ink-soft); }
 
 /* ── 대화 한 쌍 + 아숨 ── */
 .chat-figure { position: relative; display: grid; gap: 18px; justify-items: center; }
@@ -279,6 +281,11 @@ h1, h2, h3, p, figure, ol, ul { margin: 0; }
   .chat p { opacity: 0; transform: translateY(14px) scale(0.97); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
   .scene[data-in] .chat-me { opacity: 1; transform: none; transition-delay: 0.45s; }
   .scene[data-in] .chat-adsum { opacity: 1; transform: none; transition-delay: 1.35s; }
+  /* 흐름 잡기는 세 번 주고받는다 — 한꺼번에 뜨면 순서가 안 읽힌다 */
+  .scene[data-in] .chat-flow p:nth-child(3) { transition-delay: 2.4s; }
+  .scene[data-in] .chat-flow p:nth-child(4) { transition-delay: 3.3s; }
+  .scene[data-in] .chat-flow p:nth-child(5) { transition-delay: 4.35s; }
+  .scene[data-in] .chat-flow p:nth-child(6) { transition-delay: 5.25s; }
 }
 
 /* ── 왜 — 캘린더에 일정 하나 넣는 여섯 단계가 하나씩 지워진다 ── */

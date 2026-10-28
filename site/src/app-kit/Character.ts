@@ -864,7 +864,8 @@ export class Character {
     }
 
     // 말을 걸면 하던 일을 멈춘다 — 졸고 있었어도 깬다. 삐진 건 말 건다고 안 풀린다.
-    if (this.state !== "sulking") this.setState("idle");
+    // 생각하는 얼굴은 그대로 둔다 — 대답이 아직 오는 중이다 (ADR-155)
+    if (this.state !== "sulking" && this.state !== "thinking") this.setState("idle");
     this.callbacks.onClick();
   };
 

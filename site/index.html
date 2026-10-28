@@ -89,8 +89,29 @@
         </div>
       </section>
 
+      <!-- 3-1. 흐름 잡기 — 정신없는 날에 하나씩. 대답은 실제 아숨이 한 그대로 (npm run agent, 2026-10-28. 부르는 이름만 뺐다) -->
+      <section class="scene" id="flow" data-scene="흐름 잡기" data-desc="끼어든 일이 끝나면 하던 걸로" data-tone="paper">
+        <div class="scene-inner split flip">
+          <div class="copy">
+            <p class="label"><i class="ph-fill ph-path" aria-hidden="true"></i>흐름 잡기</p>
+            <h2 class="title">하다 만 일로 데려가요</h2>
+            <p class="body">정신없는 날엔 뭘 하다 말았는지부터 잊어요. 지금 하는 일을 말해 두면 아숨이 시간을 재고, 끼어든 일은 받아 두고, 끝나면 아까 하던 걸 꺼내 줘요. 멈춰 있던 동안은 빼고 이어서 재요.</p>
+          </div>
+          <figure class="chat-figure" data-pose="working">
+            <div class="chat chat-flow">
+              <p class="chat-me">지금 파이썬 공부 시작</p>
+              <p class="chat-adsum">좋아요, 파이썬 공부 시작했어요! 지금 하는 일로 붙잡아 둘게요~</p>
+              <p class="chat-me">잠깐, 팀장님이 회의 자료 달래</p>
+              <p class="chat-adsum">앗, 급한 일이 끼어들었네요! 팀장님 회의 자료를 먼저 붙잡고, 파이썬 공부는 잠깐 멈춰 둘게요.</p>
+              <p class="chat-me">자료 끝</p>
+              <p class="chat-adsum">우와, 자료 끝내셨어요! 수고하셨어요~ 아까 하던 파이썬 공부로 돌아갈까요?</p>
+            </div>
+          </figure>
+        </div>
+      </section>
+
       <!-- 4. 말로 다 돼요 — 대답은 실제 아숨이 한 그대로 (npm run agent, 2026-10-21) -->
-      <section class="chapter" id="more" data-scene="말로 다 돼요" data-desc="반복, 빈 시간, 디데이, 타이머, 쉬기, 기억">
+      <section class="chapter" id="more" data-scene="말로 다 돼요" data-desc="반복, 빈 시간, 디데이, 타이머, 쉬기, 기억, 노트, 빨간날">
         <div class="scene statement">
           <div class="scene-inner">
             <p class="statement-text">일정 넣기만 말로 하는&nbsp;게 아니에요</p>
@@ -187,6 +208,36 @@
             </figure>
           </div>
         </div>
+        <div class="scene" id="note">
+          <div class="scene-inner split flip">
+            <div class="copy">
+              <p class="label"><i class="ph-fill ph-note-pencil" aria-hidden="true"></i>노트</p>
+              <h2 class="title">떠오른 생각은 노트에 던져 두세요</h2>
+              <p class="body">"사업 노트에 추가"처럼 노트 이름을 말하면 그 노트에, 소제목을 말하면 그 아래에 적어요. 말한 그대로가 아니라 메모처럼 줄여 적고, 무엇을 어디에 적었는지 알려 줘요.</p>
+            </div>
+            <figure class="chat-figure" data-pose="working">
+              <div class="chat">
+                <p class="chat-me">사업 노트에 추가. 공지사항 페이지도 만들어야겠어</p>
+                <p class="chat-adsum">사업 노트에 ‘공지사항 페이지 만들기’ 적어 뒀어요!</p>
+              </div>
+            </figure>
+          </div>
+        </div>
+        <div class="scene" id="holiday">
+          <div class="scene-inner split">
+            <div class="copy">
+              <p class="label"><i class="ph-fill ph-calendar-star" aria-hidden="true"></i>빨간날</p>
+              <h2 class="title">다음 빨간날도 물어보세요</h2>
+              <p class="body">캘린더에 공휴일이 빨간 숫자와 이름으로 떠요. 대체공휴일까지 챙겨요. 공휴일은 구글의 한국 공휴일 달력에서 받아 오고, 일주일에 한 번 새로 받아요.</p>
+            </div>
+            <figure class="chat-figure" data-pose="cheer">
+              <div class="chat">
+                <p class="chat-me">다음 빨간날 언제야?</p>
+                <p class="chat-adsum">오, 다음 빨간날은 크리스마스예요! 12월 25일(금)이에요~</p>
+              </div>
+            </figure>
+          </div>
+        </div>
       </section>
 
       <!-- 5. 먼저 챙김: 알림 창 대신 아숨이 손을 든다 -->
@@ -215,7 +266,7 @@
       </section>
 
       <!-- 7. 성격 — 삐지고, 간지러워한다 -->
-      <section class="chapter" id="mood" data-scene="성격" data-desc="삐지고, 간지러워해요">
+      <section class="chapter" id="mood" data-scene="성격" data-desc="삐지고, 간지러워하고, 비켜요">
         <div class="scene" id="mood-sulk">
           <div class="scene-inner split flip">
             <div class="copy">
@@ -237,6 +288,21 @@
             </div>
             <figure class="pose-figure" data-pose="tickled">
               <div class="pose-say">아, 간지러워요!</div>
+            </figure>
+          </div>
+        </div>
+        <div class="scene" id="move">
+          <div class="scene-inner split flip">
+            <div class="copy">
+              <p class="label"><i class="ph-fill ph-arrows-left-right" aria-hidden="true"></i>자리</p>
+              <h2 class="title">가리면 "비켜줘" 하세요</h2>
+              <p class="body">끌지 않아도 말로 옮겨요. "왼쪽으로 조금"은 몸 한 칸, "위로 많이"도 돼요. "돌아다녀" 하면 "그만" 할 때까지 화면을 걸어 다녀요. 시키지 않으면 혼자 돌아다니지 않아요.</p>
+            </div>
+            <figure class="chat-figure" data-pose="welcome">
+              <div class="chat">
+                <p class="chat-me">비켜줘</p>
+                <p class="chat-adsum">네, 반대편으로 비켜 있을게요!</p>
+              </div>
             </figure>
           </div>
         </div>

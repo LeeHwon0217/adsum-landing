@@ -51,7 +51,7 @@ const replay = new IntersectionObserver(
 );
 poses.forEach((_, figure) => replay.observe(figure));
 
-/** 섹션 10개 — 오른쪽 점 하나씩. 섹션 하나가 여러 장면(.scene)을 품기도 한다 */
+/** 섹션 11개 — 오른쪽 점 하나씩. 섹션 하나가 여러 장면(.scene)을 품기도 한다 */
 const scenes = [...document.querySelectorAll<HTMLElement>("[data-scene]")];
 /** 한 화면씩 — 글이 올라오고, 바탕색을 따르는 단위 */
 const screens = [...document.querySelectorAll<HTMLElement>(".scene")];

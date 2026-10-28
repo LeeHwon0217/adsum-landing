@@ -44,6 +44,9 @@
         --menu-btn: 40px;
 
         --chat-w: 320px;
+        /* 캘린더 빨간날·토요일 숫자 (ADR-150) */
+        --holiday-red: #e5484d;
+        --saturday-blue: #3e63dd;
         /* 말풍선 모드의 입력창 — 대화 기록 모드 상자의 2/3. 넓으면 바탕화면을 너무 가린다 */
         --chat-input-w: 214px;
 
