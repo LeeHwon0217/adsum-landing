@@ -903,5 +903,7 @@
       .nb-body { color: var(--on-surface); overflow-wrap: anywhere; }
       .nb-date { color: var(--on-surface-variant); }
       .nb-empty { margin: 0; padding: var(--sm) 0; color: var(--on-surface-variant); }
+      /* 말로 연 노트 (ADR-156) — 여러 장 사이에서 어느 건지 바로 보이게 */
+      .nb-card.nb-focus { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary); }
 
       
