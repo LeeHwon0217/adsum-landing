@@ -148,8 +148,27 @@
         </div>
       </section>
 
+      <!-- 3-3. 위로 — 비서이면서 숨 돌릴 틈. 대답은 실제 아숨이 한 그대로 (npm run agent, 2026-11-03. 부르는 이름만 뺐다) -->
+      <section class="scene" id="comfort" data-scene="위로" data-desc="지쳤다고 하면 하나 덜어 줘요" data-tone="paper">
+        <div class="scene-inner split">
+          <div class="copy">
+            <p class="label"><i class="ph-fill ph-hand-heart" aria-hidden="true"></i>위로</p>
+            <h2 class="title">지쳤다고 하면, 하나 덜어&nbsp;줘요</h2>
+            <p class="body">힘들다고 하면 먼저 들어 줘요. 그다음 오늘 남은 일 가운데 미뤄도 되는 걸 하나 골라 내일로 옮길지 물어요. 대답하기 전엔 아무것도 옮기지 않고, 투덜거린 말을 일정으로 적지도 않아요.</p>
+          </div>
+          <figure class="chat-figure" data-pose="listening">
+            <div class="chat">
+              <p class="chat-me">아 오늘 진짜 너무 지친다</p>
+              <p class="chat-adsum">아이고, 오늘 정말 많이 지치셨네요… 지금 남은 건 장보기 하나예요. 장보기는 내일로 미뤄 둘까요?</p>
+              <p class="chat-me">응 장보기 내일로</p>
+              <p class="chat-adsum">네, 장보기는 내일로 미뤄 뒀어요. 오늘은 이제 쉬세요.</p>
+            </div>
+          </figure>
+        </div>
+      </section>
+
       <!-- 4. 말로 다 돼요 — 대답은 실제 아숨이 한 그대로 (npm run agent, 2026-10-21) -->
-      <section class="chapter" id="more" data-scene="말로 다 돼요" data-desc="반복, 빈 시간, 디데이, 타이머, 쉬기, 기억, 노트, 빨간날">
+      <section class="chapter" id="more" data-scene="말로 다 돼요" data-desc="반복, 빈 시간, 그리고 묻는 것들">
         <div class="scene statement">
           <div class="scene-inner">
             <p class="statement-text">일정 넣기만 말로 하는&nbsp;게 아니에요</p>
@@ -186,94 +205,39 @@
             </figure>
           </div>
         </div>
-        <div class="scene" id="dday">
-          <div class="scene-inner split flip">
+        <!-- 나머지는 카드로 늘어놓지 않는다 — 실제로 오간 말 한 줄씩이면 충분하다 -->
+        <div class="scene" id="others">
+          <div class="scene-inner">
             <div class="copy">
-              <p class="label"><i class="ph-fill ph-flag-banner" aria-hidden="true"></i>디데이</p>
-              <h2 class="title">며칠 남았는지 바로 알려&nbsp;줘요</h2>
-              <p class="body">발표, 시험, 마감. 달력 보며 손가락으로 세던 날짜를 대신 세어 줘요.</p>
+              <h2 class="title">디데이, 타이머, 노트도&nbsp;말로</h2>
             </div>
-            <figure class="chat-figure" data-pose="cheer">
-              <div class="chat">
-                <p class="chat-me">발표까지 며칠 남았어?</p>
-                <p class="chat-adsum">발표까지 9일 남았어요!</p>
-              </div>
-            </figure>
-          </div>
-        </div>
-        <div class="scene" id="timer">
-          <div class="scene-inner split">
-            <div class="copy">
-              <p class="label"><i class="ph-fill ph-timer" aria-hidden="true"></i>타이머</p>
-              <h2 class="title">라면 물 올리고 말만&nbsp;하세요</h2>
-              <p class="body">타이머, 스톱워치도 말로 켜고 꺼요. 시간이 되면 아숨이 불러요.</p>
-            </div>
-            <figure class="chat-figure" data-pose="working">
-              <div class="chat">
-                <p class="chat-me">라면 3분 타이머</p>
-                <p class="chat-adsum">네, 3분 타이머 시작했어요! 불기 전에 알려드릴게요~</p>
-              </div>
-            </figure>
-          </div>
-        </div>
-        <div class="scene" id="rest">
-          <div class="scene-inner split flip">
-            <div class="copy">
-              <p class="label"><i class="ph-fill ph-coffee" aria-hidden="true"></i>쉬는 시간</p>
-              <h2 class="title">쉬는 시간이 끝나면 불러&nbsp;줘요</h2>
-              <p class="body">"10분 쉬고 올게" 하고 자리를 비우면, 시간이 됐을 때 아숨이 불러요. "5분만 더"도 돼요.</p>
-            </div>
-            <figure class="chat-figure" data-pose="nervous">
-              <div class="chat">
-                <p class="chat-me">10분 쉬고 올게</p>
-                <p class="chat-adsum">네, 10분 쉬고 오세요. 끝나면 제가 불러드릴게요~</p>
-              </div>
-            </figure>
-          </div>
-        </div>
-        <div class="scene" id="memory">
-          <div class="scene-inner split">
-            <div class="copy">
-              <p class="label"><i class="ph-fill ph-brain" aria-hidden="true"></i>기억</p>
-              <h2 class="title">말해 둔&nbsp;건 기억해요</h2>
-              <p class="body">좋아하는 것, 못 먹는 것, 자주 가는 곳. 한 번 말해 두면 다음 대화에서 알아서 챙겨요.</p>
-            </div>
-            <figure class="chat-figure" data-pose="petted">
-              <div class="chat">
-                <p class="chat-me">나 오이 못 먹어, 기억해 줘</p>
-                <p class="chat-adsum">네, 오이를 못 드시는 걸로 기억해 둘게요!</p>
-              </div>
-            </figure>
-          </div>
-        </div>
-        <div class="scene" id="note">
-          <div class="scene-inner split flip">
-            <div class="copy">
-              <p class="label"><i class="ph-fill ph-note-pencil" aria-hidden="true"></i>노트</p>
-              <h2 class="title">떠오른 생각은 노트에 던져 두세요</h2>
-              <p class="body">"사업 노트에 추가"처럼 노트 이름을 말하면 그 노트에, 소제목을 말하면 그 아래에 적어요. 말한 그대로가 아니라 메모처럼 줄여 적고, 무엇을 어디에 적었는지 알려 줘요.</p>
-            </div>
-            <figure class="chat-figure" data-pose="working">
-              <div class="chat">
-                <p class="chat-me">사업 노트에 추가. 공지사항 페이지도 만들어야겠어</p>
-                <p class="chat-adsum">사업 노트에 ‘공지사항 페이지 만들기’ 적어 뒀어요!</p>
-              </div>
-            </figure>
-          </div>
-        </div>
-        <div class="scene" id="holiday">
-          <div class="scene-inner split">
-            <div class="copy">
-              <p class="label"><i class="ph-fill ph-calendar-star" aria-hidden="true"></i>빨간날</p>
-              <h2 class="title">다음 빨간날도 물어보세요</h2>
-              <p class="body">캘린더에 공휴일이 빨간 숫자와 이름으로 떠요. 대체공휴일까지 챙겨요. 공휴일은 구글의 한국 공휴일 달력에서 받아 오고, 일주일에 한 번 새로 받아요.</p>
-            </div>
-            <figure class="chat-figure" data-pose="cheer">
-              <div class="chat">
-                <p class="chat-me">다음 빨간날 언제야?</p>
-                <p class="chat-adsum">오, 다음 빨간날은 크리스마스예요! 12월 25일(금)이에요~</p>
-              </div>
-            </figure>
+            <ol class="said-log" aria-label="실제로 나눈 대화">
+              <li>
+                <p class="said-me">발표까지 며칠 남았어?</p>
+                <p class="said-adsum">발표까지 9일 남았어요!</p>
+              </li>
+              <li>
+                <p class="said-me">라면 3분 타이머</p>
+                <p class="said-adsum">네, 3분 타이머 시작했어요! 불기 전에 알려드릴게요~</p>
+              </li>
+              <li>
+                <p class="said-me">10분 쉬고 올게</p>
+                <p class="said-adsum">네, 10분 쉬고 오세요. 끝나면 제가 불러드릴게요~</p>
+              </li>
+              <li>
+                <p class="said-me">나 오이 못 먹어, 기억해 줘</p>
+                <p class="said-adsum">네, 오이를 못 드시는 걸로 기억해 둘게요!</p>
+              </li>
+              <li>
+                <p class="said-me">사업 노트에 추가. 공지사항 페이지도 만들어야겠어</p>
+                <p class="said-adsum">사업 노트에 ‘공지사항 페이지 만들기’ 적어 뒀어요!</p>
+              </li>
+              <li>
+                <p class="said-me">다음 빨간날 언제야?</p>
+                <p class="said-adsum">오, 다음 빨간날은 크리스마스예요! 12월 25일(금)이에요~</p>
+              </li>
+            </ol>
+            <p class="said-limit">빨간날은 구글의 한국 공휴일 달력에서 일주일에 한 번 받아 와요. 대체공휴일도 들어 있어요.</p>
           </div>
         </div>
       </section>
@@ -373,7 +337,7 @@
             <h3>아직 안 되는 것</h3>
             <ul>
               <li><strong>Windows 10과 11에서만 돼요.</strong> 맥과 휴대폰 앱은 아직 없어요.</li>
-              <li><strong>구글 캘린더와는 아직 이어지지 않아요.</strong> 연동은 만들고 있어요.</li>
+              <li><strong>구글 캘린더와는 아직 이어지지 않아요.</strong> 연동은 계획만 있고, 아직 만들기 전이에요.</li>
               <li><strong>말을 알아들을 때 인터넷이 필요해요.</strong> 한 번에 4~5초 걸려요.</li>
               <li><strong>일정은 내 컴퓨터에만 저장돼요.</strong> 서버에 올라가지 않아요.</li>
             </ul>
